@@ -800,6 +800,125 @@
       opacity: 1;
     }
 
+    /* ----------------------------------------------------
+       HOME LANDING HUB SECTION
+       ---------------------------------------------------- */
+    .home-hero-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+      padding-top: 10px;
+    }
+
+    .home-hero-header {
+      text-align: center;
+      max-width: 650px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .hero-card {
+      background: rgba(30, 27, 75, 0.55);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 28px;
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    .hero-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 35px var(--glow-color, rgba(139, 92, 246, 0.4));
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    .hero-card:active {
+      transform: translateY(-2px) scale(0.99);
+    }
+
+    .hero-card-badge {
+      align-self: flex-start;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    .hero-card-icon {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+      transition: transform 0.3s ease;
+    }
+    .hero-card:hover .hero-card-icon {
+      transform: scale(1.15) rotate(-5deg);
+    }
+
+    .hero-card-title {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .hero-card-desc {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .hero-card-features {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .hero-feat-tag {
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #94a3b8;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-card-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 16px;
+      border: none;
+      background: var(--btn-grad, linear-gradient(135deg, var(--primary), var(--secondary)));
+      color: white;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+
     /* Add Game Form Modal */
     .form-group {
       margin-bottom: 16px;
@@ -941,17 +1060,20 @@
 
   <!-- MAIN APP HEADER -->
   <header class="app-header">
-    <div class="brand-logo">
+    <div class="brand-logo" onclick="switchTab('home')" style="cursor:pointer;">
       <div class="brand-icon">🚀</div>
       <span>ML WORKSHOP</span>
     </div>
 
     <nav class="nav-tabs">
-      <button class="tab-btn active" onclick="switchTab('talk')">
+      <button class="tab-btn active" id="tab-btn-home" onclick="switchTab('home')">
+        <span>🏠</span> 홈
+      </button>
+      <button class="tab-btn" id="tab-btn-talk" onclick="switchTab('talk')">
         <span>💬</span> 수다타임
       </button>
-      <button class="tab-btn" onclick="switchTab('games')">
-        <span>🎲</span> 보드게임 시간!
+      <button class="tab-btn" id="tab-btn-games" onclick="switchTab('games')">
+        <span>🎲</span> 보드게임
       </button>
     </nav>
 
@@ -970,8 +1092,65 @@
 
   <!-- MAIN CONTENT AREA -->
   <main>
+    <!-- 0. MAIN LANDING HUB SECTION -->
+    <section id="tab-home" class="tab-content active">
+      <div class="home-hero-container">
+        <div class="home-hero-header">
+          <div class="badge-tag" style="margin-bottom: 12px;">🎉 WORKSHOP PORTAL 2026</div>
+          <h1 class="section-title" style="font-size: 2.5rem; margin-bottom: 12px;">함께 즐기는 워크숍 포털</h1>
+          <p class="section-subtitle" style="font-size: 1.05rem;">참여하실 프로그램을 선택하여 팀원들과 즐거운 시간을 만들어보세요!</p>
+        </div>
+
+        <div class="hero-grid">
+          <!-- Program 1: 수다타임 -->
+          <div class="hero-card" style="--glow-color: rgba(236, 72, 153, 0.4);" onclick="switchTab('talk')">
+            <div>
+              <div class="hero-card-badge" style="background: rgba(236, 72, 153, 0.2); border-color: rgba(236, 72, 153, 0.4); color: #f472b6;">
+                💬 대화 세션
+              </div>
+              <div class="hero-card-icon">🎴</div>
+              <h2 class="hero-card-title">수다타임</h2>
+              <p class="hero-card-desc">팀원들과 친해지는 24가지 무작위 대화 주제 카드 덱! 어색함을 날려버릴 흥미진진한 질문들을 뽑아보세요.</p>
+              
+              <div class="hero-card-features">
+                <span class="hero-feat-tag">✨ 24개 주제 카드</span>
+                <span class="hero-feat-tag">🔄 부트스트랩 풀</span>
+                <span class="hero-feat-tag">🖐️ 스와이프 지원</span>
+              </div>
+            </div>
+
+            <button class="hero-card-btn" style="--btn-grad: linear-gradient(135deg, #8b5cf6, #ec4899);">
+              수다타임 시작하기 🚀
+            </button>
+          </div>
+
+          <!-- Program 2: 보드게임 시간! -->
+          <div class="hero-card" style="--glow-color: rgba(6, 182, 212, 0.4);" onclick="switchTab('games')">
+            <div>
+              <div class="hero-card-badge" style="background: rgba(6, 182, 212, 0.2); border-color: rgba(6, 182, 212, 0.4); color: #38bdf8;">
+                🎲 게임 세션
+              </div>
+              <div class="hero-card-icon">🎨</div>
+              <h2 class="hero-card-title">보드게임 시간!</h2>
+              <p class="hero-card-desc">갈틱 폰, 뱅!, 달무티 등 다양한 워크숍 보드게임의 규칙을 확인하고 온라인 게임 방으로 바로 접속하세요!</p>
+              
+              <div class="hero-card-features">
+                <span class="hero-feat-tag">🎨 갈틱폰 바로가기</span>
+                <span class="hero-feat-tag">🤠 뱅! 룰 가이드</span>
+                <span class="hero-feat-tag">👑 달무티 룰</span>
+              </div>
+            </div>
+
+            <button class="hero-card-btn" style="--btn-grad: linear-gradient(135deg, #06b6d4, #10b981);">
+              보드게임 보러가기 🎲
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- 1. 수다타임 (TALK TIME) SECTION -->
-    <section id="tab-talk" class="tab-content active">
+    <section id="tab-talk" class="tab-content">
       <div class="talk-container">
         <div class="talk-header">
           <h2 class="section-title">✨ 수다타임 랜덤 주제 카드</h2>
@@ -1535,14 +1714,22 @@
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
-      if (tabId === 'talk') {
-        document.querySelectorAll('.tab-btn')[0].classList.add('active');
-        document.getElementById('tab-talk').classList.add('active');
-        // Trigger card deck shuffle animation on entering menu
+      if (tabId === 'home') {
+        const homeBtn = document.getElementById('tab-btn-home');
+        const homeTab = document.getElementById('tab-home');
+        if (homeBtn) homeBtn.classList.add('active');
+        if (homeTab) homeTab.classList.add('active');
+      } else if (tabId === 'talk') {
+        const talkBtn = document.getElementById('tab-btn-talk');
+        const talkTab = document.getElementById('tab-talk');
+        if (talkBtn) talkBtn.classList.add('active');
+        if (talkTab) talkTab.classList.add('active');
         animateDeckShuffle();
-      } else {
-        document.querySelectorAll('.tab-btn')[1].classList.add('active');
-        document.getElementById('tab-games').classList.add('active');
+      } else if (tabId === 'games') {
+        const gamesBtn = document.getElementById('tab-btn-games');
+        const gamesTab = document.getElementById('tab-games');
+        if (gamesBtn) gamesBtn.classList.add('active');
+        if (gamesTab) gamesTab.classList.add('active');
       }
     }
 
