@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ML Workshop 2026 Portal</title>
+  <!-- Google Fonts KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600;700;900&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0f0c20;
+      --bg-card: rgba(255, 255, 255, 0.06);
+      --bg-card-hover: rgba(255, 255, 255, 0.12);
+      --border-glow: rgba(139, 92, 246, 0.3);
+      --primary: #8b5cf6;
+      --primary-glow: rgba(139, 92, 246, 0.5);
+      --secondary: #ec4899;
+      --accent-cyan: #06b6d4;
+      --accent-amber: #f59e0b;
+      --accent-emerald: #10b981;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --card-w: 340px;
+      --card-h: 500px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans KR', 'Outfit', sans-serif;
+      user-select: none;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f0c20 70%, #05040a 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Ambient Background Orbs */
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+      animation: floatOrb 18s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 450px; height: 450px; background: #6366f1; top: -100px; left: -100px; }
+    .orb-2 { width: 500px; height: 500px; background: #ec4899; bottom: -150px; right: -100px; animation-delay: -9s; }
+    .orb-3 { width: 350px; height: 350px; background: #06b6d4; top: 40%; left: 60%; animation-delay: -4s; }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(60px, 40px) scale(1.1); }
+      100% { transform: translate(-40px, 80px) scale(0.9); }
+    }
+
+    /* Entrance Overlay Screen */
+    #entrance-screen {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 12, 32, 0.85);
+      backdrop-filter: blur(25px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #entrance-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .login-box {
+      background: rgba(30, 27, 75, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(139, 92, 246, 0.2);
+      border-radius: 28px;
+      padding: 40px 36px;
+      width: 90%;
+      max-width: 440px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .login-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent-cyan));
+    }
+
+    .badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      color: #c084fc;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .login-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .login-desc {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .passcode-input {
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: 16px;
+      background: rgba(15, 12, 32, 0.8);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 1.05rem;
+      text-align: center;
+      letter-spacing: 1px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    .passcode-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+    .passcode-input.shake {
+      animation: shakeErr 0.4s ease-in-out;
+      border-color: #ef4444;
+    }
+
+    @keyframes shakeErr {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      border-radius: 16px;
+      border: none;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(236, 72, 153, 0.3);
+      transition: all 0.3s ease;
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(236, 72, 153, 0.45);
+    }
+    .btn-submit:active { transform: translateY(0); }
+
+    .err-msg {
+      color: #f87171;
+      font-size: 0.85rem;
+      margin-top: 10px;
+      min-height: 20px;
+      font-weight: 500;
+    }
+
+    /* Main Container Structure */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15, 12, 32, 0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      font-size: 1.3rem;
+      letter-spacing: -0.02em;
+    }
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+
+    .nav-tabs {
+      display: flex;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 5px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      gap: 4px;
+    }
+
+    .tab-btn {
+      padding: 10px 22px;
+      border-radius: 12px;
+      border: none;
+      background: transparent;
+      color: var(--text-sub);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.8), rgba(236, 72, 153, 0.8));
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pool-badge {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .action-icon-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .action-icon-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Content Views */
+    main {
+      flex: 1;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ----------------------------------------------------
+       TALK TIME (수다타임) SECTION
+       ---------------------------------------------------- */
+    .talk-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .talk-header {
+      text-align: center;
+      max-width: 600px;
+    }
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .section-subtitle {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+    }
+
+    /* Card Deck Arena & 3D Flip */
+    .deck-stage {
+      perspective: 1200px;
+      width: 100%;
+      max-width: var(--card-w);
+      height: var(--card-h);
+      position: relative;
+      margin: 20px 0;
+    }
+
+    .deck-stack-visual {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .stack-layer {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, #2e1065, #1e1b4b);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+      transition: transform 0.4s ease;
+    }
+    .stack-layer-1 { transform: translate(-8px, 8px) rotate(-3deg); opacity: 0.5; }
+    .stack-layer-2 { transform: translate(8px, 6px) rotate(2deg); opacity: 0.75; }
+
+    /* The Interactive 3D Card */
+    .flip-card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+    }
+    .flip-card.flipped {
+      transform: rotateY(180deg);
+    }
+    .flip-card.shuffling {
+      animation: deckShuffle 0.6s cubic-bezier(0.36, 0, 0.66, -0.56);
+    }
+
+    @keyframes deckShuffle {
+      0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+      25% { transform: translate(-120px, -20px) rotate(-15deg) scale(0.95); }
+      50% { transform: translate(120px, 10px) rotate(12deg) scale(1.05); }
+      75% { transform: translate(-40px, -10px) rotate(-5deg) scale(1); }
+      100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 24px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+      overflow: hidden;
+    }
+
+    /* Card Back (Default state) */
+    .card-back {
+      background: linear-gradient(135deg, #311075 0%, #0f172a 100%);
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .card-back-pattern {
+      position: absolute;
+      inset: 12px;
+      border: 2px dashed rgba(168, 85, 247, 0.3);
+      border-radius: 16px;
+      pointer-events: none;
+    }
+    .card-back-icon {
+      font-size: 3.5rem;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6));
+      animation: pulseGlow 3s infinite ease-in-out;
+    }
+    .card-back-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #e2e8f0;
+      letter-spacing: -0.01em;
+    }
+    .card-back-prompt {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      background: rgba(255,255,255,0.08);
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6)); }
+      50% { transform: scale(1.08); filter: drop-shadow(0 0 25px rgba(236, 72, 153, 0.8)); }
+    }
+
+    /* Card Front (Questions & Artwork) */
+    .card-front {
+      background: linear-gradient(160deg, rgba(30, 27, 75, 0.95), rgba(15, 12, 32, 0.98));
+      transform: rotateY(180deg);
+    }
+    .card-tag {
+      align-self: flex-start;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(139, 92, 246, 0.2);
+      color: #c084fc;
+      border: 1px solid rgba(139, 92, 246, 0.4);
+    }
+
+    .card-art-box {
+      width: 100%;
+      height: 160px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      margin: 12px 0;
+    }
+    .card-art-box svg {
+      width: 100px;
+      height: 100px;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5));
+    }
+
+    .card-question {
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1.45;
+      color: #ffffff;
+      text-align: center;
+      margin: auto 0;
+      word-break: keep-all;
+    }
+
+    .card-footer-tip {
+      font-size: 0.8rem;
+      color: #a78bfa;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      padding: 10px 12px;
+      border-radius: 12px;
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    /* Controls Bar */
+    .controls-bar {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .btn-draw {
+      padding: 16px 36px;
+      border-radius: 20px;
+      border: none;
+      background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+      color: white;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 12px 30px rgba(139, 92, 246, 0.4);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .btn-draw:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 18px 36px rgba(236, 72, 153, 0.5);
+    }
+    .btn-draw:active { transform: translateY(0) scale(0.98); }
+
+    .btn-secondary {
+      padding: 16px 24px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.06);
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(10px);
+      transition: all 0.2s ease;
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* ----------------------------------------------------
+       BOARD GAMES (보드게임 시간!) SECTION
+       ---------------------------------------------------- */
+    .games-header {
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .game-card {
+      background: rgba(30, 27, 75, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .game-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--primary-glow);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(139, 92, 246, 0.25);
+    }
+    .game-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--card-accent, var(--primary)), var(--accent-cyan));
+    }
+
+    .game-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+    .game-icon-box {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .game-title-area h3 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .game-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+    }
+
+    .game-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .g-badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.06);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .game-desc {
+      font-size: 0.92rem;
+      color: #cbd5e1;
+      line-height: 1.55;
+      margin-bottom: 24px;
+    }
+
+    .game-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .btn-game-rule {
+      flex: 1;
+      padding: 12px;
+      border-radius: 14px;
+      border: none;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(99, 102, 241, 0.9));
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn-game-rule:hover {
+      opacity: 0.92;
+      box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+    }
+
+    .btn-external-link {
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn-external-link:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Modal for Game Rules & Enlarged View */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 12, 32, 0.8);
+      backdrop-filter: blur(16px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      padding: 20px;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-card {
+      background: #1e1b4b;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 28px;
+      padding: 32px;
+      width: 100%;
+      max-width: 640px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+      position: relative;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .modal-close-btn:hover { background: rgba(255, 255, 255, 0.25); }
+
+    .modal-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .modal-body {
+      margin-top: 20px;
+      line-height: 1.65;
+      color: #e2e8f0;
+    }
+    .rule-section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #a78bfa;
+      margin: 18px 0 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rule-list {
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.95rem;
+      color: #cbd5e1;
+    }
+
+    /* Notification Toast */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(30, 27, 75, 0.95);
+      border: 1px solid var(--primary-glow);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      font-weight: 600;
+      font-size: 0.95rem;
+      z-index: 99999;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Add Game Form Modal */
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: rgba(15, 12, 32, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    /* Responsive Mobile Formatting */
+    @media (max-width: 640px) {
+      .app-header { padding: 12px 16px; flex-wrap: wrap; gap: 12px; }
+      .nav-tabs { width: 100%; justify-content: center; order: 3; }
+      .header-actions { margin-left: auto; }
+      :root { --card-w: 300px; --card-h: 460px; }
+      .section-title { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Background Effect -->
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+
+  <!-- ENTRANCE PASSCODE SCREEN -->
+  <div id="entrance-screen">
+    <div class="login-box">
+      <div class="badge-tag">🔒 ML WORKSHOP 2026</div>
+      <h1 class="login-title">워크숍 포털 입장</h1>
+      <p class="login-desc">팀원들과 즐거운 시간을 보낼 준비가 되셨나요?<br>안내받으신 입장 코드를 입력하세요.</p>
+      
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="input-group">
+          <input type="password" id="passcode-input" class="passcode-input" placeholder="입장 코드를 입력하세요" autocomplete="off" autofocus>
+        </div>
+        <button type="submit" class="btn-submit">입장하기 ✨</button>
+        <div id="err-msg" class="err-msg"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MAIN APP HEADER -->
+  <header class="app-header">
+    <div class="brand-logo">
+      <div class="brand-icon">🚀</div>
+      <span>ML WORKSHOP</span>
+    </div>
+
+    <nav class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('talk')">
+        <span>💬</span> 수다타임
+      </button>
+      <button class="tab-btn" onclick="switchTab('games')">
+        <span>🎲</span> 보드게임 시간!
+      </button>
+    </nav>
+
+    <div class="header-actions">
+      <div class="pool-badge" id="pool-count-badge">
+        <span>🎴</span> 남은 카드: <strong id="remaining-cards-num" style="color:#a78bfa;">24</strong>/24
+      </div>
+      <button class="action-icon-btn" title="카드 풀 초기화" onclick="resetCardPoolWithToast()">
+        🔄
+      </button>
+      <button class="action-icon-btn" title="다시 잠그기" onclick="lockApp()">
+        🔒
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT AREA -->
+  <main>
+    <!-- 1. 수다타임 (TALK TIME) SECTION -->
+    <section id="tab-talk" class="tab-content active">
+      <div class="talk-container">
+        <div class="talk-header">
+          <h2 class="section-title">✨ 수다타임 랜덤 주제 카드</h2>
+          <p class="section-subtitle">카드를 클릭하거나 하단 버튼을 눌러 부트스트랩 랜덤 질문을 뽑아보세요!</p>
+        </div>
+
+        <!-- 3D Card Arena -->
+        <div class="deck-stage">
+          <div class="deck-stack-visual">
+            <div class="stack-layer stack-layer-1"></div>
+            <div class="stack-layer stack-layer-2"></div>
+          </div>
+
+          <div id="interactive-card" class="flip-card" onclick="triggerCardDraw()">
+            <!-- Card Back -->
+            <div class="card-face card-back">
+              <div class="card-back-pattern"></div>
+              <div class="card-back-icon">💬</div>
+              <div class="card-back-title">ML WORKSHOP 2026</div>
+              <div class="card-back-prompt">터치하거나 아래 버튼으로 뽑기</div>
+            </div>
+
+            <!-- Card Front -->
+            <div class="card-face card-front">
+              <div class="card-tag" id="card-category-tag">
+                <span id="card-tag-icon">✨</span> <span id="card-tag-text">대화 주제</span>
+              </div>
+
+              <div class="card-art-box" id="card-art-container">
+                <!-- SVG Artwork Injected Dynamically -->
+              </div>
+
+              <div class="card-question" id="card-question-text">
+                질문을 뽑으려면 카드를 터치하세요!
+              </div>
+
+              <div class="card-footer-tip" id="card-tip-text">
+                💡 팁: 편안하고 자유롭게 이야기해보세요.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls-bar">
+          <button class="btn-draw" onclick="triggerCardDraw()">
+            <span>🎴</span> <span id="draw-btn-text">질문 뽑기</span>
+          </button>
+          <button class="btn-secondary" onclick="openEnlargedCardModal()">
+            <span>🔍</span> 크게 보기
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 보드게임 시간! (BOARD GAMES) SECTION -->
+    <section id="tab-games" class="tab-content">
+      <div class="games-header">
+        <h2 class="section-title">🎲 워크숍 보드게임 존</h2>
+        <p class="section-subtitle">오늘 함께 즐길 보드게임의 규칙과 가이드를 한눈에 확인하세요!</p>
+      </div>
+
+      <div class="games-grid" id="games-grid-container">
+        <!-- Gartic Phone Card -->
+        <div class="game-card" style="--card-accent: #ec4899;">
+          <div>
+            <div class="game-top">
+              <div class="game-icon-box">🎨</div>
+              <div class="game-title-area">
+                <h3>갈틱 폰 (Gartic Phone)</h3>
+                <div class="game-subtitle">망가진 텔레파시 그림 전달 게임</div>
+              </div>
+            </div>
+
+            <div class="game-badges">
+              <span class="g-badge">👥 4~14명</span>
+              <span class="g-badge">⏱️ 15~30분</span>
+              <span class="g-badge">🌐 온라인 Web</span>
+            </div>
+
+            <p class="game-desc">
+              문장 작성 ➡️ 그림 그리기 ➡️ 정답 맞추기로 이어지는 극도의 릴레이 웃음 유발 웹 게임!
+            </p>
+          </div>
+
+          <div class="game-actions">
+            <button class="btn-game-rule" onclick="openRuleModal('gartic')">📜 규칙 보기</button>
+            <a href="https://garticphone.com/ko" target="_blank" rel="noopener" class="btn-external-link">🌐 방 만들기</a>
+          </div>
+        </div>
+
+        <!-- Bang! Card -->
+        <div class="game-card" style="--card-accent: #f59e0b;">
+          <div>
+            <div class="game-top">
+              <div class="game-icon-box">🤠</div>
+              <div class="game-title-area">
+                <h3>뱅! (Bang!)</h3>
+                <div class="game-subtitle">서부의 무법자와 보안관 심리전</div>
+              </div>
+            </div>
+
+            <div class="game-badges">
+              <span class="g-badge">👥 4~7명</span>
+              <span class="g-badge">⏱️ 30~50분</span>
+              <span class="g-badge">🃏 카드 게임</span>
+            </div>
+
+            <p class="game-desc">
+              비밀리에 배정된 역할(보안관, 부관, 무법자, 배신자)을 숨긴 채 사거리와 카드 전략으로 맞서는 서부 심리 마피아 카드게임!
+            </p>
+          </div>
+
+          <div class="game-actions">
+            <button class="btn-game-rule" onclick="openRuleModal('bang')">📜 규칙 보기</button>
+          </div>
+        </div>
+
+        <!-- Dalmuti Card -->
+        <div class="game-card" style="--card-accent: #10b981;">
+          <div>
+            <div class="game-top">
+              <div class="game-icon-box">👑</div>
+              <div class="game-title-area">
+                <h3>달무티 (Dalmuti)</h3>
+                <div class="game-subtitle">인생은 불공평합니다 - 계급 역전 게임</div>
+              </div>
+            </div>
+
+            <div class="game-badges">
+              <span class="g-badge">👥 4~8명</span>
+              <span class="g-badge">⏱️ 20~40분</span>
+              <span class="g-badge">🃏 카드 게임</span>
+            </div>
+
+            <p class="game-desc">
+              달무티(왕)부터 농노까지! 카드 계급과 세금, 혁명을 활용해 빠르게 손의 카드를 털어내는 짜릿한 계급 게임.
+            </p>
+          </div>
+
+          <div class="game-actions">
+            <button class="btn-game-rule" onclick="openRuleModal('dalmuti')">📜 규칙 보기</button>
+          </div>
+        </div>
+
+        <!-- Add Custom Game Card -->
+        <div class="game-card" style="--card-accent: #06b6d4; border-style: dashed;">
+          <div style="text-align: center; margin: auto 0; padding: 20px 0;">
+            <div class="game-icon-box" style="margin: 0 auto 16px auto;">➕</div>
+            <h3 style="font-size: 1.2rem; margin-bottom: 8px;">새 보드게임 추가</h3>
+            <p class="game-desc" style="margin-bottom: 16px;">워크숍에서 함께 진행할 다른 보드게임의 규칙을 직접 등록하세요!</p>
+            <button class="btn-secondary" style="margin: 0 auto;" onclick="openAddGameModal()">게임 추가하기</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- RULE MODAL -->
+  <div id="rule-modal" class="modal-overlay" onclick="closeModalOnOuter(event, 'rule-modal')">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeModal('rule-modal')">✕</button>
+      <div id="modal-rule-content">
+        <!-- Rule HTML dynamically injected -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ENLARGED CARD MODAL -->
+  <div id="enlarged-card-modal" class="modal-overlay" onclick="closeModalOnOuter(event, 'enlarged-card-modal')">
+    <div class="modal-card" style="max-width: 500px; text-align: center; padding: 40px 28px;">
+      <button class="modal-close-btn" onclick="closeModal('enlarged-card-modal')">✕</button>
+      <div id="enlarged-tag" class="card-tag" style="margin: 0 auto 16px auto; display: inline-flex;">
+        ✨ 대화 주제
+      </div>
+      <div id="enlarged-art-container" style="height: 180px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
+      </div>
+      <h2 id="enlarged-question" style="font-size: 1.6rem; font-weight: 800; line-height: 1.5; color: #fff; margin-bottom: 20px; word-break: keep-all;">
+        질문 카드를 먼저 뽑아주세요!
+      </h2>
+      <div id="enlarged-tip" class="card-footer-tip">
+        💡 팁: 팀원들과 편안하게 공유해보세요.
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD GAME MODAL -->
+  <div id="add-game-modal" class="modal-overlay" onclick="closeModalOnOuter(event, 'add-game-modal')">
+    <div class="modal-card" style="max-width: 480px;">
+      <button class="modal-close-btn" onclick="closeModal('add-game-modal')">✕</button>
+      <h2 class="modal-title">🎲 새로운 보드게임 추가</h2>
+      <form onsubmit="handleAddCustomGame(event)" style="margin-top: 20px;">
+        <div class="form-group">
+          <label>게임 이름</label>
+          <input type="text" id="g-input-name" class="form-control" placeholder="예: 카르카손" required>
+        </div>
+        <div class="form-group">
+          <label>한줄 설명</label>
+          <input type="text" id="g-input-sub" class="form-control" placeholder="예: 중세 영지 타일 타카 타카 게임" required>
+        </div>
+        <div class="form-group">
+          <label>추천 인원 / 소요시간</label>
+          <input type="text" id="g-input-meta" class="form-control" placeholder="예: 2~5명 / 30분" required>
+        </div>
+        <div class="form-group">
+          <label>게임 규칙 및 안내</label>
+          <textarea id="g-input-rules" class="form-control" rows="4" placeholder="게임 방법 및 팁을 입력하세요" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit" style="margin-top: 10px;">게임 등록하기 ✨</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="toast">
+    <span id="toast-icon">✨</span> <span id="toast-msg">알림 메세지</span>
+  </div>
+
+  <script>
+    /* ===================================================================
+       1. DATA STRUCTURES & TOPICS (24 CONVERSATION TOPICS)
+       =================================================================== */
+    const TOPICS_DATA = [
+      {
+        id: 1,
+        question: "요즘 나를 살게하는 사소한 것 하나",
+        category: "일상 소소함",
+        icon: "☕",
+        tip: "💡 커뮤니티, 소소한 디저트, 출근길 햇살 등 일상의 소소한 행복을 말해보세요!",
+        color: "#ec4899",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-coffee)"/><path d="M35 52 h30 v15 a15 15 0 0 1 -30 0 z" fill="#fff" opacity="0.9"/><path d="M65 54 a8 8 0 0 1 0 12 h-5 v-12 z" fill="none" stroke="#fff" stroke-width="3"/><path d="M42 36 c-2 -4 2 -8 0 -12" stroke="#f472b6" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M50 36 c-2 -4 2 -8 0 -12" stroke="#f472b6" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M58 36 c-2 -4 2 -8 0 -12" stroke="#f472b6" stroke-width="3" fill="none" stroke-linecap="round"/><defs><linearGradient id="g-coffee" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#be185d"/><stop offset="100%" stop-color="#831843"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 2,
+        question: "내 인생의 BGM - 요즘 무한 반복 노래",
+        category: "음악 & 취향",
+        icon: "🎵",
+        tip: "💡 플레이리스트 최상단 노래나 출퇴근길 무한 재생 곡을 소개해 주세요!",
+        color: "#8b5cf6",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-music)"/><path d="M38 65 a8 8 0 1 1 -16 0 a8 8 0 0 1 16 0 z" fill="#38bdf8"/><path d="M72 58 a8 8 0 1 1 -16 0 a8 8 0 0 1 16 0 z" fill="#38bdf8"/><path d="M38 65 v-32 l34 -8 v33" stroke="#38bdf8" stroke-width="4" fill="none" stroke-linecap="round"/><defs><linearGradient id="g-music" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6d28d9"/><stop offset="100%" stop-color="#4c1d95"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 3,
+        question: "최근에 예쁘다 혹은 멋지다 하고 멈칫한 순간",
+        category: "감성 & 순간",
+        icon: "✨",
+        tip: "💡 노을빛 하늘, 지나가다 본 건축물, 타인의 인상적인 행동 등!",
+        color: "#06b6d4",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-sparkle)"/><path d="M50 25 l5 18 l18 5 l-18 5 l-5 18 l-5 -18 l-18 -5 l18 -5 z" fill="#fde047"/><path d="M28 28 l2 8 l8 2 l-8 2 l-2 8 l-2 -8 l-8 -2 l8 -2 z" fill="#fff" opacity="0.8"/><defs><linearGradient id="g-sparkle" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0e7490"/><stop offset="100%" stop-color="#155e75"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 4,
+        question: "스트레스 풀리는 나만의 소소한 의식",
+        category: "힐링 & 루틴",
+        icon: "🧘",
+        tip: "💡 샤워 후 반숙란 먹기, 매운 음식 도전, 청소하기 등 나만의 힐링법!",
+        color: "#10b981",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-heal)"/><path d="M50 30 a16 16 0 0 1 16 16 c0 16 -16 26 -16 26 c0 0 -16 -10 -16 -26 a16 16 0 0 1 16 -16 z" fill="#34d399"/><path d="M50 40 v12 M44 46 h12" stroke="#064e3b" stroke-width="3" stroke-linecap="round"/><defs><linearGradient id="g-heal" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#047857"/><stop offset="100%" stop-color="#065f46"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 5,
+        question: "최근 인생 컨텐츠 (유튜브, 드라마, 영화)",
+        category: "미디어 & 추천",
+        icon: "🍿",
+        tip: "💡 넷플릭스 숏츠, 유튜브 알고리즘 최애 채널, 감명 깊었던 드라마!",
+        color: "#f59e0b",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-popcorn)"/><rect x="32" y="42" width="36" height="34" rx="4" fill="#ef4444"/><path d="M38 42 l4 34 M50 42 v34 M62 42 l-4 34" stroke="#fff" stroke-width="2"/><circle cx="36" cy="38" r="8" fill="#fde047"/><circle cx="50" cy="34" r="9" fill="#fde047"/><circle cx="64" cy="38" r="8" fill="#fde047"/><defs><linearGradient id="g-popcorn" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#b45309"/><stop offset="100%" stop-color="#78350f"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 6,
+        question: "퇴근 후 혹은 주말을 채우는 나의 취미",
+        category: "라이프스타일",
+        icon: "🎨",
+        tip: "💡 러닝, 요리, 게임, 클라이밍, 넷플릭스 정주행 등 무엇이든 좋답니다!",
+        color: "#3b82f6",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-hobby)"/><path d="M30 60 c0 -15 10 -25 25 -25 c12 0 20 8 20 18 c0 10 -8 15 -14 15 c-5 0 -8 -4 -8 -8" fill="none" stroke="#60a5fa" stroke-width="5" stroke-linecap="round"/><circle cx="70" cy="36" r="5" fill="#f472b6"/><circle cx="40" cy="32" r="4" fill="#fde047"/><defs><linearGradient id="g-hobby" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1d4ed8"/><stop offset="100%" stop-color="#1e40af"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 7,
+        question: "어릴 때 장래희망 vs 지금",
+        category: "추억 & 꿈",
+        icon: "🚀",
+        tip: "💡 꼬마 시절 꿈꾸던 과학자/대통령에서 지금의 직업까지의 비하인드!",
+        color: "#a855f7",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-rocket)"/><path d="M50 24 c12 12 12 30 12 30 l-24 0 c0 0 0 -18 12 -30 z" fill="#f43f5e"/><path d="M38 54 l-8 10 h10 v-10 z M62 54 l8 10 h-10 v-10 z" fill="#fb7185"/><circle cx="50" cy="40" r="4" fill="#38bdf8"/><path d="M46 64 l4 12 l4 -12 z" fill="#fde047"/><defs><linearGradient id="g-rocket" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7e22ce"/><stop offset="100%" stop-color="#581c87"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 8,
+        question: "학창시절 최애 게임,만화,간식",
+        category: "레트로 추억",
+        icon: "🎮",
+        tip: "💡 크레이지아케이드, 메이플, 슬램덩크, 피카츄 돈까스 등 추억 소환!",
+        color: "#ef4444",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-game)"/><rect x="28" y="38" width="44" height="26" rx="8" fill="#475569"/><path d="M36 51 h12 M42 45 v12" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="48" r="3" fill="#f43f5e"/><circle cx="66" cy="54" r="3" fill="#fde047"/><defs><linearGradient id="g-game" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#b91c1c"/><stop offset="100%" stop-color="#7f1d1d"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 9,
+        question: "내 첫 월급으로 뭐 했더라?",
+        category: "에피소드",
+        icon: "💰",
+        tip: "💡 부모님 내복 선물, 평소 사고 싶던 전자기기 플렉스, 적금 등!",
+        color: "#10b981",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-money)"/><rect x="30" y="36" width="40" height="28" rx="4" fill="#34d399"/><circle cx="50" cy="50" r="6" fill="#047857"/><path d="M26 44 h8 M66 44 h8" stroke="#a7f3d0" stroke-width="2"/><defs><linearGradient id="g-money" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#047857"/><stop offset="100%" stop-color="#064e3b"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 10,
+        question: "지금 생각하면 이불킥 하는 흑역사 (웃긴걸로)",
+        category: "유머 & 이불킥",
+        icon: "🙈",
+        tip: "💡 팀원들에게 웃음을 줄 수 있는 귀여운 과거 실수 이야기!",
+        color: "#f97316",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-kicking)"/><circle cx="50" cy="45" r="18" fill="#fed7aa"/><path d="M40 42 a4 4 0 0 1 8 0 M52 42 a4 4 0 0 1 8 0" stroke="#7c2d12" stroke-width="2.5" fill="none"/><path d="M44 54 q6 -4 12 0" stroke="#7c2d12" stroke-width="2.5" fill="none"/><path d="M30 62 c10 -8 30 -8 40 0 v12 h-40 z" fill="#fb923c"/><defs><linearGradient id="g-kicking" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c2410c"/><stop offset="100%" stop-color="#7c2d12"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 11,
+        question: "opi2 나오면 하고싶은 일",
+        category: "미래 & 소원",
+        icon: "🤖",
+        tip: "💡 차세대 모델/기술 출시 시 시도해보고 싶은 사이드 프로젝트!",
+        color: "#6366f1",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-ai)"/><rect x="32" y="34" width="36" height="30" rx="8" fill="#818cf8"/><circle cx="42" cy="46" r="4" fill="#1e1b4b"/><circle cx="58" cy="46" r="4" fill="#1e1b4b"/><path d="M44 55 h12" stroke="#1e1b4b" stroke-width="3" stroke-linecap="round"/><path d="M50 24 v10" stroke="#a5b4fc" stroke-width="3"/><circle cx="50" cy="22" r="3" fill="#67e8f9"/><defs><linearGradient id="g-ai" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4338ca"/><stop offset="100%" stop-color="#312e81"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 12,
+        question: "로또 1등에 당첨되면 회사를 계속 다닐까?",
+        category: "상상 & 재미",
+        icon: "🎰",
+        tip: "💡 조용히 솔루션 개발하며 다니기 vs 바로 퇴사하고 건물주 되기!",
+        color: "#eab308",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-lotto)"/><circle cx="50" cy="50" r="22" fill="#fde047"/><text x="50" y="57" font-size="20" font-weight="bold" text-anchor="middle" fill="#854d0e">777</text><defs><linearGradient id="g-lotto" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#a16207"/><stop offset="100%" stop-color="#713f12"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 13,
+        question: "무인도에 딱 세개만 가져간다면",
+        category: "생존 & 선택",
+        icon: "🏝️",
+        tip: "💡 맥북? 무한 와이파이? 라면스프? 나만의 생존 3개 필수템!",
+        color: "#14b8a6",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-island)"/><path d="M25 65 q25 -10 50 0 z" fill="#fde047"/><path d="M50 60 v-25" stroke="#78350f" stroke-width="4"/><path d="M50 35 c-10 -8 -20 -2 -20 -2 c10 10 20 2 20 2 M50 35 c10 -8 20 -2 20 -2 c-10 10 -20 2 -20 2" fill="none" stroke="#15803d" stroke-width="4"/><defs><linearGradient id="g-island" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0f766e"/><stop offset="100%" stop-color="#115e59"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 14,
+        question: "다시 태어나면 갖고 싶은 능력이나 직업",
+        category: "만약에",
+        icon: "🔮",
+        tip: "💡 순간이동, 우주비행사, 세계적인 뮤지션, 건물주 등 원초적 소망!",
+        color: "#ec4899",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-crystal)"/><circle cx="50" cy="46" r="20" fill="#f472b6" opacity="0.8"/><path d="M35 68 h30 l-5 8 h-20 z" fill="#9d174d"/><defs><linearGradient id="g-crystal" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#be185d"/><stop offset="100%" stop-color="#831843"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 15,
+        question: "갑자기 1년의 안식년이 생긴다면?",
+        category: "휴식 & 여행",
+        icon: "✈️",
+        tip: "💡 세계 여행 일주, 시골 한달살기, 새로운 학문 공부 등 꿈의 안식년 계획!",
+        color: "#0284c7",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-plane)"/><path d="M28 52 l44 -18 l-10 24 l-12 -4 l-8 8 v-6 z" fill="#38bdf8"/><defs><linearGradient id="g-plane" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0369a1"/><stop offset="100%" stop-color="#075985"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 16,
+        question: "회사 아니면 무얼하고 살고 있을까?",
+        category: "대안 라이프",
+        icon: "☕",
+        tip: "💡 제주도 카페 사장님, 유튜버, 목수, 빵집 주인 등 또 다른 나의 모습!",
+        color: "#d97706",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-cafe)"/><rect x="30" y="44" width="40" height="24" rx="4" fill="#fbbf24"/><path d="M35 44 l15 -14 l15 14 z" fill="#b45309"/><defs><linearGradient id="g-cafe" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#b45309"/><stop offset="100%" stop-color="#78350f"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 17,
+        question: "최근 지른 것 중 가장 만족한 소비",
+        category: "쇼핑 & 아이템",
+        icon: "🛍️",
+        tip: "💡 삶의 질을 확 올려준 가전, 꿀템, 패션 소품 자랑 시간!",
+        color: "#8b5cf6",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-shop)"/><rect x="32" y="42" width="36" height="30" rx="6" fill="#c084fc"/><path d="M42 42 v-8 a8 8 0 0 1 16 0 v8" fill="none" stroke="#fff" stroke-width="3"/><defs><linearGradient id="g-shop" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7e22ce"/><stop offset="100%" stop-color="#581c87"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 18,
+        question: "내 최애 편의점/배달음식 조합",
+        category: "푸드 & 야식",
+        icon: "🍜",
+        tip: "💡 마크정식, 특정 불닭 조합, 떡볶이+튀김 환상의 레시피 전수!",
+        color: "#ef4444",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-ramen)"/><path d="M28 48 h44 v8 a22 22 0 0 1 -44 0 z" fill="#fca5a5"/><path d="M32 40 q8 6 16 0 t16 0" stroke="#fde047" stroke-width="3" fill="none"/><defs><linearGradient id="g-ramen" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c2410c"/><stop offset="100%" stop-color="#9a3412"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 19,
+        question: "반려 동물/식물 자랑!",
+        category: "반려 라이프",
+        icon: "🐱",
+        tip: "💡 귀여운 강아지, 고양이, 혹은 정성껏 키우는 홈 가드닝 몬스테라 자랑!",
+        color: "#10b981",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-pet)"/><circle cx="50" cy="56" r="12" fill="#6ee7b7"/><circle cx="38" cy="38" r="5" fill="#6ee7b7"/><circle cx="62" cy="38" r="5" fill="#6ee7b7"/><circle cx="48" cy="32" r="4.5" fill="#6ee7b7"/><circle cx="54" cy="32" r="4.5" fill="#6ee7b7"/><defs><linearGradient id="g-pet" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#047857"/><stop offset="100%" stop-color="#064e3b"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 20,
+        question: "요즘 빠져있는 것",
+        category: "취향 저격",
+        icon: "🔥",
+        tip: "💡 특정 게임, 디저트 브랜드, 운동, 유튜브 장르 등 꽂혀있는 덕질 분야!",
+        color: "#f97316",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-fire)"/><path d="M50 24 c10 14 20 22 20 34 a20 20 0 0 1 -40 0 c0 -12 10 -20 20 -34 z" fill="#fdba74"/><path d="M50 42 c4 6 10 10 10 16 a10 10 0 0 1 -20 0 c0 -6 6 -10 10 -16 z" fill="#fde047"/><defs><linearGradient id="g-fire" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ea580c"/><stop offset="100%" stop-color="#c2410c"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 21,
+        question: "완벽한 휴일은 어떤 모습일까?",
+        category: "휴식 & 힐링",
+        icon: "🛌",
+        tip: "💡 늦잠 자고 만화책 보기 vs 야외 엑티비티 활동하기!",
+        color: "#6366f1",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-bed)"/><rect x="26" y="52" width="48" height="16" rx="3" fill="#a5b4fc"/><path d="M26 44 h16 v8 h-16 z" fill="#fff"/><defs><linearGradient id="g-bed" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4f46e5"/><stop offset="100%" stop-color="#3730a3"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 22,
+        question: "없으면 못사는 나의 최애 아이템",
+        category: "필수 애착템",
+        icon: "🎧",
+        tip: "💡 노이즈캔슬링 헤드폰, 특수 베개, 인공눈물, 립밤 등 내 분신 같은 아이템!",
+        color: "#ec4899",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-headphone)"/><path d="M30 52 a20 20 0 0 1 40 0" stroke="#f472b6" stroke-width="5" fill="none"/><rect x="26" y="48" width="10" height="16" rx="4" fill="#fff"/><rect x="64" y="48" width="10" height="16" rx="4" fill="#fff"/><defs><linearGradient id="g-headphone" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#9d174d"/><stop offset="100%" stop-color="#831843"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 23,
+        question: "소개해주고 싶은 여행지",
+        category: "여행 추천",
+        icon: "🏖️",
+        tip: "💡 국내 숨은 힐링 스팟이나 잊지 못할 해외 이색 도시 공유하기!",
+        color: "#06b6d4",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-beach)"/><circle cx="68" cy="34" r="8" fill="#fde047"/><path d="M22 66 q28 -14 56 0 z" fill="#fef08a"/><defs><linearGradient id="g-beach" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0891b2"/><stop offset="100%" stop-color="#155e75"/></linearGradient></defs></svg>`
+      },
+      {
+        id: 24,
+        question: "죽기전에 꼭해보고 싶은것 하나",
+        category: "버킷리스트",
+        icon: "⭐",
+        tip: "💡 스카이다이빙, 오로라 감상, 나만의 책 출판 등 버킷리스트!",
+        color: "#f59e0b",
+        svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="url(#g-star)"/><path d="M50 24 l7 16 l17 2 l-13 12 l4 17 l-15 -9 l-15 9 l4 -17 l-13 -12 l17 -2 z" fill="#fde047"/><defs><linearGradient id="g-star" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d97706"/><stop offset="100%" stop-color="#b45309"/></linearGradient></defs></svg>`
+      }
+    ];
+
+    /* ===================================================================
+       2. STATE & BOOTSTRAPPING POOL LOGIC
+       =================================================================== */
+    const PASSCODE = "ml-workshop-2026";
+    let availableCardPool = [];
+    let currentDrawnCard = null;
+    let audioCtx = null;
+
+    // Initialize Card Pool (Bootstrapping)
+    function initCardPool() {
+      const savedPool = localStorage.getItem("ml_workshop_pool");
+      if (savedPool) {
+        try {
+          const parsed = JSON.parse(savedPool);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            availableCardPool = parsed;
+            updatePoolBadgeUI();
+            return;
+          }
+        } catch (e) {
+          console.error("Pool load error", e);
+        }
+      }
+      resetCardPool();
+    }
+
+    function resetCardPool() {
+      availableCardPool = TOPICS_DATA.map(t => t.id);
+      savePoolToLocalStorage();
+      updatePoolBadgeUI();
+    }
+
+    function savePoolToLocalStorage() {
+      localStorage.setItem("ml_workshop_pool", JSON.stringify(availableCardPool));
+    }
+
+    function updatePoolBadgeUI() {
+      const numElem = document.getElementById("remaining-cards-num");
+      if (numElem) numElem.textContent = availableCardPool.length;
+    }
+
+    function resetCardPoolWithToast() {
+      resetCardPool();
+      showToast("🔄 대화 주제 카드가 초기화되었습니다! (24/24)", "✨");
+      playSoundEffect('shuffle');
+    }
+
+    /* ===================================================================
+       3. SYNTHESIZED SOUND EFFECTS (WEB AUDIO API)
+       =================================================================== */
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playSoundEffect(type) {
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+
+        if (type === 'shuffle') {
+          // Card Shuffle rustle sound
+          for (let i = 0; i < 6; i++) {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(150 + Math.random() * 200, now + i * 0.05);
+            gain.gain.setValueAtTime(0.08, now + i * 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.05 + 0.08);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + i * 0.05);
+            osc.stop(now + i * 0.05 + 0.09);
+          }
+        } else if (type === 'flip') {
+          // Soft card flip sound
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(300, now);
+          osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.18);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.2);
+        } else if (type === 'success') {
+          // Login success chime
+          [523.25, 659.25, 783.99].forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+            gain.gain.setValueAtTime(0.1, now + idx * 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.3);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + idx * 0.1);
+            osc.stop(now + idx * 0.1 + 0.35);
+          });
+        }
+      } catch (e) {
+        // Fallback gracefully if web audio blocked
+      }
+    }
+
+    /* ===================================================================
+       4. ENTRANCE GATE & TAB SYSTEM
+       =================================================================== */
+    function handleLogin(e) {
+      e.preventDefault();
+      const input = document.getElementById("passcode-input");
+      const err = document.getElementById("err-msg");
+      const val = input.value.trim();
+
+      if (val === PASSCODE) {
+        playSoundEffect('success');
+        localStorage.setItem("ml_workshop_auth", "true");
+        document.getElementById("entrance-screen").classList.add("hidden");
+        showToast("WELCOME TO ML WORKSHOP 2026! 🎉", "🚀");
+      } else {
+        input.classList.add("shake");
+        err.textContent = "입장 코드가 올바르지 않습니다. 다시 확인해주세요!";
+        setTimeout(() => input.classList.remove("shake"), 450);
+      }
+    }
+
+    function checkAuthOnLoad() {
+      const isAuth = localStorage.getItem("ml_workshop_auth");
+      if (isAuth === "true") {
+        document.getElementById("entrance-screen").classList.add("hidden");
+      }
+    }
+
+    function lockApp() {
+      localStorage.removeItem("ml_workshop_auth");
+      document.getElementById("entrance-screen").classList.remove("hidden");
+      showToast("포털이 다시 잠겼습니다.", "🔒");
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      if (tabId === 'talk') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        document.getElementById('tab-talk').classList.add('active');
+        // Trigger card deck shuffle animation on entering menu
+        animateDeckShuffle();
+      } else {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        document.getElementById('tab-games').classList.add('active');
+      }
+    }
+
+    /* ===================================================================
+       5. CARD SHUFFLE & DRAWING LOGIC (BOOTSTRAPPING)
+       =================================================================== */
+    function animateDeckShuffle() {
+      const card = document.getElementById("interactive-card");
+      card.classList.remove("flipped");
+      card.classList.add("shuffling");
+      playSoundEffect('shuffle');
+      setTimeout(() => card.classList.remove("shuffling"), 600);
+    }
+
+    function triggerCardDraw() {
+      // Bootstrapping Check: If pool is empty, auto-reset & alert
+      if (availableCardPool.length === 0) {
+        showToast("🎉 모든 24개 주제를 보셨습니다! 부트스트랩 리셋됩니다.", "🔄");
+        resetCardPool();
+      }
+
+      const card = document.getElementById("interactive-card");
+      
+      // Step 1: Unflip if already showing front
+      if (card.classList.contains("flipped")) {
+        card.classList.remove("flipped");
+        playSoundEffect('flip');
+        setTimeout(() => performDraw(), 300);
+      } else {
+        performDraw();
+      }
+    }
+
+    function performDraw() {
+      const card = document.getElementById("interactive-card");
+      card.classList.add("shuffling");
+      playSoundEffect('shuffle');
+
+      setTimeout(() => {
+        card.classList.remove("shuffling");
+
+        // Pick random index from remaining available pool (Sampling without replacement)
+        const randIndex = Math.floor(Math.random() * availableCardPool.length);
+        const topicId = availableCardPool[randIndex];
+
+        // Remove drawn topic from pool
+        availableCardPool.splice(randIndex, 1);
+        savePoolToLocalStorage();
+        updatePoolBadgeUI();
+
+        // Find Topic details
+        currentDrawnCard = TOPICS_DATA.find(t => t.id === topicId);
+        renderCardFront(currentDrawnCard);
+
+        // Flip Card
+        card.classList.add("flipped");
+        playSoundEffect('flip');
+
+        document.getElementById("draw-btn-text").textContent = "다른 질문 뽑기";
+      }, 550);
+    }
+
+    function renderCardFront(topic) {
+      document.getElementById("card-tag-icon").textContent = topic.icon;
+      document.getElementById("card-tag-text").textContent = topic.category;
+      document.getElementById("card-art-container").innerHTML = topic.svg;
+      document.getElementById("card-question-text").textContent = topic.question;
+      document.getElementById("card-tip-text").textContent = topic.tip;
+    }
+
+    function openEnlargedCardModal() {
+      if (!currentDrawnCard) {
+        showToast("먼저 대화 주제 카드를 뽑아주세요!", "🎴");
+        return;
+      }
+      document.getElementById("enlarged-tag").innerHTML = `${currentDrawnCard.icon} ${currentDrawnCard.category}`;
+      document.getElementById("enlarged-art-container").innerHTML = currentDrawnCard.svg;
+      document.getElementById("enlarged-question").textContent = currentDrawnCard.question;
+      document.getElementById("enlarged-tip").textContent = currentDrawnCard.tip;
+
+      openModal("enlarged-card-modal");
+    }
+
+    /* ===================================================================
+       6. BOARD GAME RULES & MODAL CONTROLS
+       =================================================================== */
+    const RULES_DATA = {
+      gartic: `
+        <h2 class="modal-title">🎨 갈틱 폰 (Gartic Phone)</h2>
+        <div style="color:var(--text-sub); font-size:0.9rem; margin-bottom:16px;">망가진 텔레파시 그림 전달 게임</div>
+        
+        <div class="rule-section-title">🎯 게임 개요</div>
+        <p style="font-size:0.95rem;">각 참가자가 엉뚱한 문장을 작성하고, 다음 사람이 그 문장을 보고 그림을 그린 뒤, 그 다음 사람은 그림만 보고 문장을 맞추는 릴레이 그림 게임입니다!</p>
+
+        <div class="rule-section-title">👥 추천 인원 & 시간</div>
+        <p style="font-size:0.95rem;">• 추천 인원: 4명 ~ 14명 (6~8명이 가장 재미있습니다)<br>• 소요시간: 1판당 15분 내외</p>
+
+        <div class="rule-section-title">📜 진행 단계</div>
+        <ol class="rule-list">
+          <li><strong>제시어 작성:</strong> 기발하고 엉뚱한 문장을 자유롭게 입력합니다.</li>
+          <li><strong>그림 그리기:</strong> 나에게 전달된 이전 사람의 제시어를 보고 제한 시간 내 그림을 그립니다.</li>
+          <li><strong>정답 맞추기:</strong> 이전 사람이 그린 그림만 보고 무슨 문장일지 추측하여 입력합니다.</li>
+          <li><strong>결과 공개:</strong> 완성된 릴레이 결과를 다 함께 보며 빵 터지는 시간!</li>
+        </ol>
+
+        <div class="rule-section-title">💡 워크숍 진행 꿀팁</div>
+        <p style="font-size:0.95rem;">'노멀 모드' 외에 **'비밀 모드'**나 **'애니메이션 모드'**를 선택하면 더 색다른 재미를 즐길 수 있습니다!</p>
+        <div style="margin-top:20px;">
+          <a href="https://garticphone.com/ko" target="_blank" rel="noopener" class="btn-submit" style="display:inline-block; text-decoration:none; text-align:center;">🌐 Gartic Phone 방 만들러 가기</a>
+        </div>
+      `,
+      bang: `
+        <h2 class="modal-title">🤠 뱅! (Bang!)</h2>
+        <div style="color:var(--text-sub); font-size:0.9rem; margin-bottom:16px;">서부의 마피아 카드게임</div>
+        
+        <div class="rule-section-title">🎯 게임 역할 (Secret Roles)</div>
+        <ul class="rule-list">
+          <li><strong>보안관 (Sheriff):</strong> 신분 공개! 무법자와 배신자를 제거하고 서부의 평화를 지킵니다.</li>
+          <li><strong>부관 (Deputy):</strong> 정체 숨김. 보안관을 지키고 무법자를 처단합니다.</li>
+          <li><strong>무법자 (Outlaw):</strong> 정체 숨김. 무슨 수를 써서든 보안관을 제거해야 승리합니다.</li>
+          <li><strong>배신자 (Renegade):</strong> 정체 숨김. 최후에 보안관과 1:1로 남아 마지막 승자가 되어야 합니다.</li>
+        </ul>
+
+        <div class="rule-section-title">🃏 핵심 게임 규칙</div>
+        <ol class="rule-list">
+          <li>자기 턴이 되면 카드 2장을 가져옵니다.</li>
+          <li>원하는 만큼 카드를 사용합니다 (기본 턴당 '뱅!' 카드는 1장만 사용 가능).</li>
+          <li>'뱅!' 공격을 받으면 '빗나감!' 카드로 방어할 수 있습니다.</li>
+          <li>사거리(총기 장비)에 따라 공격할 수 있는 상대 플레이어 거리가 달라집니다.</li>
+        </ol>
+
+        <div class="rule-section-title">💡 꿀팁</div>
+        <p style="font-size:0.95rem;">보안관을 섣불리 공격하면 무법자로 오해받아 집중 포화를 맞을 수 있으니 눈치 작전이 필수입니다!</p>
+      `,
+      dalmuti: `
+        <h2 class="modal-title">👑 달무티 (The Great Dalmuti)</h2>
+        <div style="color:var(--text-sub); font-size:0.9rem; margin-bottom:16px;">신분 역전 계급 카드게임</div>
+        
+        <div class="rule-section-title">🎯 핵심 룰 (Rank System)</div>
+        <p style="font-size:0.95rem;">카드의 숫자가 작을수록 더 높은 계급입니다 (1 = 대달무티, 12 = 농노). 카드의 숫자는 해당 카드의 총 매수와 같습니다 (12 카드는 총 12장 존재).</p>
+
+        <div class="rule-section-title">🃏 턴 진행 규칙</div>
+        <ol class="rule-list">
+          <li>선(선두) 플레이어가 원하는 카드 장수(예: 8 3장)를 냅니다.</li>
+          <li>다음 사람들은 <strong>동일한 장수</strong>이면서 <strong>더 낮은 숫자(더 높은 계급)</strong>의 카드(예: 5 3장)를 내야 합니다.</li>
+          <li>낼 카드가 없거나 아끼고 싶다면 패스합니다.</li>
+          <li>가장 먼저 손의 카드를 털어내는 사람이 다음 라운드의 **대달무티(1등)**가 됩니다.</li>
+        </ol>
+
+        <div class="rule-section-title">👑 계급 세금 룰</div>
+        <p style="font-size:0.95rem;">다음 라운드 시작 전, 대농노(꼴찌)는 가장 좋은 카드 2장을 대달무티에게 바치고, 대달무티는 아무 카드 2장을 줍니다!</p>
+      `
+    };
+
+    function openRuleModal(gameKey) {
+      const content = RULES_DATA[gameKey];
+      if (content) {
+        document.getElementById("modal-rule-content").innerHTML = content;
+        openModal("rule-modal");
+      }
+    }
+
+    function openAddGameModal() {
+      openModal("add-game-modal");
+    }
+
+    function handleAddCustomGame(e) {
+      e.preventDefault();
+      const name = document.getElementById("g-input-name").value;
+      const sub = document.getElementById("g-input-sub").value;
+      const meta = document.getElementById("g-input-meta").value;
+      const rules = document.getElementById("g-input-rules").value;
+
+      const container = document.getElementById("games-grid-container");
+      const newCard = document.createElement("div");
+      newCard.className = "game-card";
+      newCard.style.setProperty("--card-accent", "#8b5cf6");
+      newCard.innerHTML = `
+        <div>
+          <div class="game-top">
+            <div class="game-icon-box">🎮</div>
+            <div class="game-title-area">
+              <h3>${escapeHtml(name)}</h3>
+              <div class="game-subtitle">${escapeHtml(sub)}</div>
+            </div>
+          </div>
+          <div class="game-badges">
+            <span class="g-badge">ℹ️ ${escapeHtml(meta)}</span>
+          </div>
+          <p class="game-desc">${escapeHtml(rules)}</p>
+        </div>
+        <div class="game-actions">
+          <button class="btn-game-rule" onclick="alert('${escapeHtml(name)}:\\n\\n${escapeHtml(rules)}')">📜 상세 보기</button>
+        </div>
+      `;
+
+      // Insert before the last Add button card
+      container.insertBefore(newCard, container.lastElementChild);
+      closeModal("add-game-modal");
+      showToast(`'${name}' 보드게임이 추가되었습니다!`, "🎉");
+      e.target.reset();
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+
+    /* ===================================================================
+       7. UTILS & MODAL CONTROLS
+       =================================================================== */
+    function openModal(id) {
+      document.getElementById(id).classList.add("active");
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("active");
+    }
+
+    function closeModalOnOuter(e, id) {
+      if (e.target.id === id) {
+        closeModal(id);
+      }
+    }
+
+    function showToast(msg, icon = "✨") {
+      const toast = document.getElementById("toast");
+      document.getElementById("toast-msg").textContent = msg;
+      document.getElementById("toast-icon").textContent = icon;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3200);
+    }
+
+    // Initialize Application
+    window.addEventListener("DOMContentLoaded", () => {
+      checkAuthOnLoad();
+      initCardPool();
+    });
+  </script>
+</body>
+</html>
