@@ -975,7 +975,7 @@
       <div class="talk-container">
         <div class="talk-header">
           <h2 class="section-title">✨ 수다타임 랜덤 주제 카드</h2>
-          <p class="section-subtitle">카드를 클릭하거나 하단 버튼을 눌러 부트스트랩 랜덤 질문을 뽑아보세요!</p>
+          <p class="section-subtitle">카드를 터치하거나 좌우로 스와이프하여 새로운 대화 주제를 뽑아보세요!</p>
         </div>
 
         <!-- 3D Card Arena -->
@@ -991,7 +991,7 @@
               <div class="card-back-pattern"></div>
               <div class="card-back-icon">💬</div>
               <div class="card-back-title">ML WORKSHOP 2026</div>
-              <div class="card-back-prompt">터치하거나 아래 버튼으로 뽑기</div>
+              <div class="card-back-prompt">터치 또는 스와이프하여 카드 뽑기 🎴</div>
             </div>
 
             <!-- Card Front -->
@@ -1013,16 +1013,6 @@
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- Controls -->
-        <div class="controls-bar">
-          <button class="btn-draw" onclick="triggerCardDraw()">
-            <span>🎴</span> <span id="draw-btn-text">질문 뽑기</span>
-          </button>
-          <button class="btn-secondary" onclick="openEnlargedCardModal()">
-            <span>🔍</span> 크게 보기
-          </button>
         </div>
       </div>
     </section>
@@ -1136,24 +1126,6 @@
       <button class="modal-close-btn" onclick="closeModal('rule-modal')">✕</button>
       <div id="modal-rule-content">
         <!-- Rule HTML dynamically injected -->
-      </div>
-    </div>
-  </div>
-
-  <!-- ENLARGED CARD MODAL -->
-  <div id="enlarged-card-modal" class="modal-overlay" onclick="closeModalOnOuter(event, 'enlarged-card-modal')">
-    <div class="modal-card" style="max-width: 500px; text-align: center; padding: 40px 28px;">
-      <button class="modal-close-btn" onclick="closeModal('enlarged-card-modal')">✕</button>
-      <div id="enlarged-tag" class="card-tag" style="margin: 0 auto 16px auto; display: inline-flex;">
-        ✨ 대화 주제
-      </div>
-      <div id="enlarged-art-container" style="height: 180px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
-      </div>
-      <h2 id="enlarged-question" style="font-size: 1.6rem; font-weight: 800; line-height: 1.5; color: #fff; margin-bottom: 20px; word-break: keep-all;">
-        질문 카드를 먼저 뽑아주세요!
-      </h2>
-      <div id="enlarged-tip" class="card-footer-tip">
-        💡 팁: 팀원들과 편안하게 공유해보세요.
       </div>
     </div>
   </div>
@@ -1628,8 +1600,6 @@
         // Flip Card
         card.classList.add("flipped");
         playSoundEffect('flip');
-
-        document.getElementById("draw-btn-text").textContent = "다른 질문 뽑기";
       }, 550);
     }
 
@@ -1639,19 +1609,6 @@
       document.getElementById("card-art-container").innerHTML = topic.svg;
       document.getElementById("card-question-text").textContent = topic.question;
       document.getElementById("card-tip-text").textContent = topic.tip;
-    }
-
-    function openEnlargedCardModal() {
-      if (!currentDrawnCard) {
-        showToast("먼저 대화 주제 카드를 뽑아주세요!", "🎴");
-        return;
-      }
-      document.getElementById("enlarged-tag").innerHTML = `${currentDrawnCard.icon} ${currentDrawnCard.category}`;
-      document.getElementById("enlarged-art-container").innerHTML = currentDrawnCard.svg;
-      document.getElementById("enlarged-question").textContent = currentDrawnCard.question;
-      document.getElementById("enlarged-tip").textContent = currentDrawnCard.tip;
-
-      openModal("enlarged-card-modal");
     }
 
     /* ===================================================================
