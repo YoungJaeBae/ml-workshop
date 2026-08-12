@@ -149,36 +149,355 @@
       .sheet { transform-origin: top left; }
     }
 
-    @page { size: A4; margin: 0; }
-    @media print {
-      body { padding: 0; background: #fff; }
-      .bar { display: none !important; }
-      .sheet { width: 210mm; height: 297mm; padding: 12mm 14mm; border: 0; border-radius: 0; box-shadow: none; }
+    /* Responsive Mobile Formatting */
+    @media (max-width: 640px) {
+      .app-header {
+        padding: max(12px, env(safe-area-inset-top)) 16px 12px 16px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .nav-tabs {
+        width: 100%;
+        justify-content: center;
+        order: 3;
+        margin-top: 4px;
+      }
+      .tab-btn {
+        flex: 1;
+        justify-content: center;
+        padding: 11px 7px;
+        font-size: 0.78rem;
+        white-space: nowrap;
+      }
+      .header-actions { margin-left: auto; }
+
+      main {
+        padding: 20px 16px max(24px, env(safe-area-inset-bottom)) 16px;
+      }
+
+      :root {
+        --card-w: min(320px, 88vw);
+        --card-h: min(460px, 64vh);
+      }
+
+      .section-title { font-size: 1.6rem; }
+      .section-subtitle { font-size: 0.88rem; }
+
+      .deck-stage {
+        margin: 12px 0;
+      }
+
+      .card-face {
+        padding: 20px 18px;
+      }
+
+      .card-art-box {
+        height: 130px;
+        margin: 8px 0;
+      }
+      .card-art-box svg {
+        width: 80px;
+        height: 80px;
+      }
+
+      .card-question {
+        font-size: 1.12rem;
+        line-height: 1.4;
+      }
+
+      .card-footer-tip {
+        font-size: 0.76rem;
+        padding: 8px 10px;
+      }
+
+      .controls-bar {
+        width: 100%;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .btn-draw {
+        width: 100%;
+        justify-content: center;
+        padding: 16px;
+      }
+      .btn-secondary {
+        width: 100%;
+        justify-content: center;
+        padding: 14px;
+      }
+
+      .modal-card {
+        padding: 24px 18px;
+        border-radius: 22px;
+      }
+      .info-hero { padding: 26px 18px; }
+      .info-hero h2 { font-size: 1.55rem; }
+      .info-grid { grid-template-columns: 1fr; }
+      .info-card.wide { grid-column: auto; }
+      .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .schedule-item { grid-template-columns: 82px 1fr; }
+    }
+
+    /* MIDYEAR REFLECTION SECTION */
+    .reflection-container {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 28px 20px 60px;
+    }
+    .reflection-frame {
+      display: block;
+      width: 100%;
+      height: max(860px, calc(100vh - 150px));
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 24px;
+      background: #dde6f4;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
     }
   </style>
 </head>
 <body>
-  <nav class="bar" aria-label="문서 도구">
-    <button type="button" id="print-button">인쇄 / PDF 저장</button>
-    <button type="button" id="image-button">이미지로 저장</button>
-    <button type="button" id="clear-button">다 지우기</button>
-  </nav>
 
-  <main class="sheet" id="sheet">
-    <header class="top">
-      <svg class="doodle" width="58" height="66" viewBox="0 0 58 66" fill="none" aria-hidden="true">
-        <path d="M29 5C17 5 9 14 9 25c0 9 6 17 15 19l-1 15c-.2 3 3 4 4 1l5-15c10-1 17-9 17-19C49 14 41 5 29 5Z" stroke="#2b2b2b" stroke-width="3" stroke-linejoin="round" fill="#fff"/>
-        <path d="M21 21c1.6 1.8 3.4 1.8 5 0M32 21c1.6 1.8 3.4 1.8 5 0" stroke="#2b2b2b" stroke-width="2.6" stroke-linecap="round"/>
-        <path d="M23 31c3 3.5 8 3.5 11 0" stroke="#2b2b2b" stroke-width="2.8" stroke-linecap="round"/>
-        <path d="M29 5V1M18 8 15 4M40 8l3-4" stroke="#2b2b2b" stroke-width="2.6" stroke-linecap="round"/>
-      </svg>
-      <div class="bubble"><span class="tail"></span><h1>2026년 상반기, 나는 어땠나요</h1></div>
-    </header>
+  <!-- Ambient Background Effect -->
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
 
-    <section class="info" aria-label="기본 정보">
-      <div class="chip name"><span class="k">이름</span><div class="v" contenteditable="true" role="textbox" aria-label="이름"></div></div>
-      <div class="chip"><span class="k">상반기를 한 단어로</span><div class="v" contenteditable="true" role="textbox" aria-label="상반기를 한 단어로"></div></div>
-      <div class="chip weather"><span class="k">상반기 날씨</span><div class="picks" id="weather" aria-label="상반기 날씨 선택"></div></div>
+  <!-- ENTRANCE PASSCODE SCREEN -->
+  <div id="entrance-screen">
+    <div class="login-box">
+      <div class="badge-tag">🔒 ML WORKSHOP 2026</div>
+      <h1 class="login-title">워크숍 포털 입장</h1>
+      <p class="login-desc">팀원들과 즐거운 시간을 보낼 준비가 되셨나요?<br>안내받으신 입장 코드를 입력하세요.</p>
+
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="input-group">
+          <input type="password" id="passcode-input" class="passcode-input" placeholder="입장 코드를 입력하세요" autocomplete="off" autofocus>
+        </div>
+        <button type="submit" class="btn-submit">입장하기 ✨</button>
+        <div id="err-msg" class="err-msg"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MAIN APP HEADER -->
+  <header class="app-header">
+    <div class="brand-logo" onclick="switchTab('home')" style="cursor:pointer;">
+      <div class="brand-icon">🚀</div>
+      <span>ML WORKSHOP</span>
+    </div>
+
+    <nav class="nav-tabs">
+      <button class="tab-btn active" id="tab-btn-home" onclick="switchTab('home')">
+        <span>🏠</span> 홈
+      </button>
+      <button class="tab-btn" id="tab-btn-reflection" onclick="switchTab('reflection')">
+        <span>📝</span> 상반기 회고
+      </button>
+      <button class="tab-btn" id="tab-btn-talk" onclick="switchTab('talk')">
+        <span>💬</span> 수다타임
+      </button>
+      <button class="tab-btn" id="tab-btn-games" onclick="switchTab('games')">
+        <span>🎲</span> 보드게임
+      </button>
+      <button class="tab-btn" id="tab-btn-info" onclick="switchTab('info')">
+        <span>📌</span> 안내
+      </button>
+    </nav>
+
+    <div class="header-actions">
+      <div class="pool-badge" id="pool-count-badge">
+        <span>🎴</span> 남은 카드: <strong id="remaining-cards-num" style="color:#a78bfa;">24</strong>/24
+      </div>
+      <button class="action-icon-btn" title="카드 풀 초기화" onclick="resetCardPoolWithToast()">
+        🔄
+      </button>
+      <button class="action-icon-btn" title="다시 잠그기" onclick="lockApp()">
+        🔒
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT AREA -->
+  <main>
+    <!-- 0. MAIN LANDING HUB SECTION -->
+    <section id="tab-home" class="tab-content active">
+      <div class="home-hero-container">
+        <div class="home-hero-header">
+          <div class="badge-tag" style="margin-bottom: 12px;">🎉 WORKSHOP PORTAL 2026</div>
+          <h1 class="section-title" style="font-size: 2.5rem; margin-bottom: 12px;">함께 즐기는 워크숍 포털</h1>
+          <p class="section-subtitle" style="font-size: 1.05rem;">참여하실 프로그램을 선택하여 팀원들과 즐거운 시간을 만들어보세요!</p>
+        </div>
+
+        <div class="hero-grid">
+          <div class="hero-card" style="--glow-color: rgba(245, 158, 11, 0.4); grid-column: 1 / -1;" onclick="switchTab('info')">
+            <div>
+              <div class="hero-card-badge" style="background: rgba(245, 158, 11, 0.2); border-color: rgba(245, 158, 11, 0.4); color: #fbbf24;">📌 8월 13일 목요일</div>
+              <div class="hero-card-icon">🗓️</div>
+              <h2 class="hero-card-title">워크숍 종합 안내</h2>
+              <p class="hero-card-desc">장소, 조 편성, 근태, 케이터링과 회식 메뉴까지 워크숍에 필요한 정보를 한눈에 확인하세요.</p>
+            </div>
+            <button class="hero-card-btn" style="--btn-grad: linear-gradient(135deg, #f59e0b, #ec4899);">안내 확인하기 📍</button>
+          </div>
+          <!-- Program 0: 상반기 회고 -->
+          <div class="hero-card" style="--glow-color: rgba(139, 164, 207, 0.5);" onclick="switchTab('reflection')">
+            <div>
+              <div class="hero-card-badge" style="background: rgba(139, 164, 207, 0.2); border-color: rgba(139, 164, 207, 0.45); color: #bfdbfe;">📝 회고 세션</div>
+              <div class="hero-card-icon">✍️</div>
+              <h2 class="hero-card-title">2026 상반기 회고</h2>
+              <p class="hero-card-desc">나의 상반기를 돌아보는 10가지 질문에 답하고, 작성 내용을 브라우저에 저장하거나 PDF와 이미지로 남겨보세요.</p>
+              <div class="hero-card-features">
+                <span class="hero-feat-tag">💾 자동 저장</span>
+                <span class="hero-feat-tag">🖨️ PDF 인쇄</span>
+                <span class="hero-feat-tag">🖼️ 이미지 저장</span>
+              </div>
+            </div>
+            <button class="hero-card-btn" style="--btn-grad: linear-gradient(135deg, #8ba4cf, #8b5cf6);">회고 작성하기 ✍️</button>
+          </div>
+
+          <!-- Program 1: 수다타임 -->
+          <div class="hero-card" style="--glow-color: rgba(236, 72, 153, 0.4);" onclick="switchTab('talk')">
+            <div>
+              <div class="hero-card-badge" style="background: rgba(236, 72, 153, 0.2); border-color: rgba(236, 72, 153, 0.4); color: #f472b6;">
+                💬 대화 세션
+              </div>
+              <div class="hero-card-icon">🎴</div>
+              <h2 class="hero-card-title">수다타임</h2>
+              <p class="hero-card-desc">팀원들과 친해지는 24가지 무작위 대화 주제 카드 덱! 어색함을 날려버릴 흥미진진한 질문들을 뽑아보세요.</p>
+
+              <div class="hero-card-features">
+                <span class="hero-feat-tag">✨ 24개 주제 카드</span>
+                <span class="hero-feat-tag">🔄 부트스트랩 풀</span>
+                <span class="hero-feat-tag">🖐️ 스와이프 지원</span>
+              </div>
+            </div>
+
+            <button class="hero-card-btn" style="--btn-grad: linear-gradient(135deg, #8b5cf6, #ec4899);">
+              수다타임 시작하기 🚀
+            </button>
+          </div>
+
+          <!-- Program 2: 보드게임 시간! -->
+          <div class="hero-card" style="--glow-color: rgba(6, 182, 212, 0.4);" onclick="switchTab('games')">
+            <div>
+              <div class="hero-card-badge" style="background: rgba(6, 182, 212, 0.2); border-color: rgba(6, 182, 212, 0.4); color: #38bdf8;">
+                🎲 게임 세션
+              </div>
+              <div class="hero-card-icon">🎨</div>
+              <h2 class="hero-card-title">보드게임 시간!</h2>
+              <p class="hero-card-desc">갈틱 폰, 뱅!, 달무티 등 다양한 워크숍 보드게임의 규칙을 확인하고 온라인 게임 방으로 바로 접속하세요!</p>
+
+              <div class="hero-card-features">
+                <span class="hero-feat-tag">🎨 갈틱폰 바로가기</span>
+                <span class="hero-feat-tag">🤠 뱅! 룰 가이드</span>
+                <span class="hero-feat-tag">👑 달무티 룰</span>
+              </div>
+            </div>
+
+            <button class="hero-card-btn" style="--btn-grad: linear-gradient(135deg, #06b6d4, #10b981);">
+              보드게임 보러가기 🎲
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 0-1. 2026 MIDYEAR REFLECTION SECTION -->
+    <section id="tab-reflection" class="tab-content">
+      <div class="reflection-container">
+        <iframe class="reflection-frame" src="reflection.html" title="2026년 상반기 회고 작성지"></iframe>
+      </div>
+    </section>
+
+    <!-- Workshop information -->
+    <section id="tab-info" class="tab-content">
+      <div class="info-container">
+        <div class="info-hero">
+          <div class="badge-tag">ML P/J WORKSHOP · AUG 2026</div>
+          <h2>따로 또 같이, 리프레시하는 하루!</h2>
+          <p>일상에서 잠깐 벗어나 함께 쉬고 이야기하며 즐거운 추억을 만들어요.</p>
+          <div class="info-meta">작성자 강은지 · 마지막 업데이트 2026. 8. 11. 14:47</div>
+        </div>
+
+        <div class="info-grid">
+          <article class="info-card">
+            <h3>🗓️ 일시 및 장소</h3>
+            <p><strong>2026년 8월 13일(목) 10:00 시작</strong></p>
+            <h4>장소 1 · 서천연수원 107 강의실</h4>
+            <ul>
+              <li><a class="info-link" href="https://dseducenter.com/usc/mtg/selectMyMtgResveDetail.do" target="_blank" rel="noopener">에듀센터 예약시스템</a></li>
+              <li>주차 가능 · 5부제 운영 없음</li>
+              <li>보안 처리 필요</li>
+            </ul>
+            <h4>화성캠퍼스(H1) → 서천연수원 셔틀</h4>
+            <p>탑승 장소: <strong>주차타워 11번</strong><br>출발 시간: 08:00 · 08:15 · 08:30 · 08:45 · 09:00 · 09:15 · 09:30 · 12:30</p>
+            <h4>장소 2 · 서천 아크메</h4>
+            <p>8월 13일 26명 예약 완료 (서영덕)<br>8월 10일까지 메뉴 전달 (배영재)</p>
+          </article>
+
+          <article class="info-card">
+            <h3>⏰ 시간표</h3>
+            <div class="schedule-list">
+              <div class="schedule-item"><span class="schedule-time">10:00</span><span><strong>워크숍 시작!</strong> · ML 상반기 회고</span></div>
+              <div class="schedule-item"><span class="schedule-time">10:45</span><span>이야기 살롱</span></div>
+              <div class="schedule-item"><span class="schedule-time">11:30–13:30</span><span>점심시간 및 산책</span></div>
+              <div class="schedule-item"><span class="schedule-time">13:30</span><span>스트레칭</span></div>
+              <div class="schedule-item"><span class="schedule-time">13:50–16:00</span><span>보드게임 라운지</span></div>
+              <div class="schedule-item"><span class="schedule-time">17:10</span><span>서천 아크메로 이동</span></div>
+            </div>
+            <h4>근태 안내</h4>
+            <p>근태 유형: <strong>Workshop</strong><br>근태일자: 8월 13일(목)<br>사유: ML P/J 워크숍 (서천연수원 107 강의실, 08:00–17:00)</p>
+            <div class="budget-highlight">✓ 사무실 출근 체크 없이 서천연수원으로 바로 이동해도 근태 처리 가능합니다.</div>
+          </article>
+
+          <article class="info-card wide">
+            <h3>👥 조 편성 및 자리 배치</h3>
+            <div class="team-grid">
+              <div class="team-box"><strong>A조 · 6명</strong><ul><li>ENTP 송진백</li><li>ENTJ 안민균</li><li>INTJ 정진구</li><li>INTJ 고요한</li><li>INFJ 배영재</li><li>INTP 문상권</li></ul></div>
+              <div class="team-box"><strong>B조 · 6명</strong><ul><li>ENTP 이기현</li><li>INFJ 강은지</li><li>ENFJ 서영덕</li><li>INTP 오창용</li><li>INFP 임동후</li><li>INTP 김종화</li></ul></div>
+              <div class="team-box"><strong>C조 · 6명</strong><ul><li>ESFJ 이한규</li><li>ISTP 이진영</li><li>ISTP 고산주</li><li>ISFP 노성호</li><li>ISTJ 김병희</li><li>ISFP 오상윤</li></ul></div>
+              <div class="team-box"><strong>D조 · 6명</strong><ul><li>ESTJ 오현교</li><li>ISFJ 이성화</li><li>ISFJ 이강희</li><li>ISTJ 정영훈</li><li>ISFJ 강동협</li><li>ISTJ 박재영</li></ul></div>
+            </div>
+          </article>
+
+          <article class="info-card">
+            <h3>☕ 케이터링</h3>
+            <p><strong>The UniverSE 카페테리아</strong><br>담당: 윤소영<br>연락처: 031-8031-3600</p>
+            <h4>운영 시간</h4>
+            <ul>
+              <li><strong>조식 T/O</strong>: 07:00–10:00</li>
+              <li><strong>조식 일반식</strong>: 07:00–08:30</li>
+              <li><strong>중식 T/O</strong>: 11:00–14:00</li>
+              <li><strong>중식 일반식</strong>: 11:30–13:30</li>
+            </ul>
+          </article>
+
+          <article class="info-card">
+            <h3>🍷 회식 인원 및 주류</h3>
+            <p><strong>총 23명 · 6테이블</strong></p>
+            <ul>
+              <li>주류 15명: 4테이블 (콜키지)</li>
+              <li>비주류 8명: 2테이블</li>
+              <li>와인 6병 + 포트와인 1병</li>
+              <li>콜키지: 테이블당 2만 원</li>
+            </ul>
+          </article>
+
+          <article class="info-card wide">
+            <h3>🍽️ 회식 메뉴 및 예산</h3>
+            <p>테이블당 4인 기준 구성입니다.</p>
+            <table class="menu-table">
+              <thead><tr><th>메뉴</th><th>금액</th></tr></thead>
+              <tbody>
+                <tr><td>머쉬룸 샐러드</td><td>1.8만 원</td></tr><tr><td>시금치 크림 감자 뇨끼</td><td>2.1만 원</td></tr>
+                <tr><td>앤초비 오일 파스타</td><td>1.9만 원</td></tr><tr><td>김치 갈비 리조또</td><td>2.0만 원</td></tr>
+                <tr><td>스테이크 450g</td><td>9.9만 원</td></tr><tr><th>테이블당 합계</th><th>17.7만 원</th></tr>
+              </tbody>
+            </table>
+            <div class="budget-highlight">6테이블 106.2만 원 + 콜키지 8만 원 = 총 114.2만 원 · 예산 125만 원 (25명 × 5만 원) · 예상 잔여 예산 약 7만 원</div>
+          </article>
+        </div>
+      </div>
     </section>
 
     <section class="grid" id="questions" aria-label="상반기 회고 질문"></section>
@@ -224,23 +543,268 @@
           button.classList.add('on');
           button.setAttribute('aria-pressed', 'true');
         }
-      });
-      weather.appendChild(button);
-    });
+      } catch (e) {
+        // Fallback gracefully if web audio blocked
+      }
+    }
 
-    Array.from({ length: 5 }, (_, index) => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'star';
-      button.textContent = '★';
-      button.setAttribute('aria-label', `${index + 1}점`);
-      button.addEventListener('click', () => {
-        const starButtons = [...stars.children];
-        const clear = button.classList.contains('on') && !starButtons[index + 1]?.classList.contains('on');
-        starButtons.forEach((star, starIndex) => star.classList.toggle('on', !clear && starIndex <= index));
-      });
-      stars.appendChild(button);
-    });
+    /* ===================================================================
+       4. ENTRANCE GATE & TAB SYSTEM
+       =================================================================== */
+    function handleLogin(e) {
+      e.preventDefault();
+      const input = document.getElementById("passcode-input");
+      const err = document.getElementById("err-msg");
+      const val = input.value.trim();
+
+      if (val === PASSCODE) {
+        playSoundEffect('success');
+        localStorage.setItem("ml_workshop_auth", "true");
+        document.getElementById("entrance-screen").classList.add("hidden");
+        showToast("WELCOME TO ML WORKSHOP 2026! 🎉", "🚀");
+      } else {
+        input.classList.add("shake");
+        err.textContent = "입장 코드가 올바르지 않습니다. 다시 확인해주세요!";
+        setTimeout(() => input.classList.remove("shake"), 450);
+      }
+    }
+
+    function checkAuthOnLoad() {
+      const isAuth = localStorage.getItem("ml_workshop_auth");
+      if (isAuth === "true") {
+        document.getElementById("entrance-screen").classList.add("hidden");
+      }
+    }
+
+    function lockApp() {
+      localStorage.removeItem("ml_workshop_auth");
+      document.getElementById("entrance-screen").classList.remove("hidden");
+      showToast("포털이 다시 잠겼습니다.", "🔒");
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      if (tabId === 'home') {
+        const homeBtn = document.getElementById('tab-btn-home');
+        const homeTab = document.getElementById('tab-home');
+        if (homeBtn) homeBtn.classList.add('active');
+        if (homeTab) homeTab.classList.add('active');
+      } else if (tabId === 'reflection') {
+        const reflectionBtn = document.getElementById('tab-btn-reflection');
+        const reflectionTab = document.getElementById('tab-reflection');
+        if (reflectionBtn) reflectionBtn.classList.add('active');
+        if (reflectionTab) reflectionTab.classList.add('active');
+      } else if (tabId === 'talk') {
+        const talkBtn = document.getElementById('tab-btn-talk');
+        const talkTab = document.getElementById('tab-talk');
+        if (talkBtn) talkBtn.classList.add('active');
+        if (talkTab) talkTab.classList.add('active');
+        animateDeckShuffle();
+      } else if (tabId === 'games') {
+        const gamesBtn = document.getElementById('tab-btn-games');
+        const gamesTab = document.getElementById('tab-games');
+        if (gamesBtn) gamesBtn.classList.add('active');
+        if (gamesTab) gamesTab.classList.add('active');
+      } else if (tabId === 'info') {
+        const infoBtn = document.getElementById('tab-btn-info');
+        const infoTab = document.getElementById('tab-info');
+        if (infoBtn) infoBtn.classList.add('active');
+        if (infoTab) infoTab.classList.add('active');
+      }
+    }
+
+    /* ===================================================================
+       5. CARD SHUFFLE & DRAWING LOGIC (BOOTSTRAPPING)
+       =================================================================== */
+    function animateDeckShuffle() {
+      const card = document.getElementById("interactive-card");
+      card.classList.remove("flipped");
+      card.classList.add("shuffling");
+      playSoundEffect('shuffle');
+      setTimeout(() => card.classList.remove("shuffling"), 600);
+    }
+
+    function triggerCardDraw() {
+      // Bootstrapping Check: If pool is empty, auto-reset & alert
+      if (availableCardPool.length === 0) {
+        showToast("🎉 모든 24개 주제를 보셨습니다! 부트스트랩 리셋됩니다.", "🔄");
+        resetCardPool();
+      }
+
+      const card = document.getElementById("interactive-card");
+
+      // Step 1: Unflip if already showing front
+      if (card.classList.contains("flipped")) {
+        card.classList.remove("flipped");
+        playSoundEffect('flip');
+        setTimeout(() => performDraw(), 300);
+      } else {
+        performDraw();
+      }
+    }
+
+    function performDraw() {
+      const card = document.getElementById("interactive-card");
+      card.classList.add("shuffling");
+      playSoundEffect('shuffle');
+
+      setTimeout(() => {
+        card.classList.remove("shuffling");
+
+        // Pick random index from remaining available pool (Sampling without replacement)
+        const randIndex = Math.floor(Math.random() * availableCardPool.length);
+        const topicId = availableCardPool[randIndex];
+
+        // Remove drawn topic from pool
+        availableCardPool.splice(randIndex, 1);
+        savePoolToLocalStorage();
+        updatePoolBadgeUI();
+
+        // Find Topic details
+        currentDrawnCard = TOPICS_DATA.find(t => t.id === topicId);
+        renderCardFront(currentDrawnCard);
+
+        // Flip Card
+        card.classList.add("flipped");
+        playSoundEffect('flip');
+      }, 550);
+    }
+
+    function renderCardFront(topic) {
+      document.getElementById("card-tag-icon").textContent = topic.icon;
+      document.getElementById("card-tag-text").textContent = topic.category;
+      document.getElementById("card-art-container").innerHTML = topic.svg;
+      document.getElementById("card-question-text").textContent = topic.question;
+      document.getElementById("card-tip-text").textContent = topic.tip;
+    }
+
+    /* ===================================================================
+       6. BOARD GAME RULES & MODAL CONTROLS
+       =================================================================== */
+    const RULES_DATA = {
+      gartic: `
+        <h2 class="modal-title">🎨 갈틱 폰 (Gartic Phone)</h2>
+        <div style="color:var(--text-sub); font-size:0.9rem; margin-bottom:16px;">망가진 텔레파시 그림 전달 게임</div>
+
+        <div class="rule-section-title">🎯 게임 개요</div>
+        <p style="font-size:0.95rem;">각 참가자가 엉뚱한 문장을 작성하고, 다음 사람이 그 문장을 보고 그림을 그린 뒤, 그 다음 사람은 그림만 보고 문장을 맞추는 릴레이 그림 게임입니다!</p>
+
+        <div class="rule-section-title">👥 추천 인원 & 시간</div>
+        <p style="font-size:0.95rem;">• 추천 인원: 4명 ~ 14명 (6~8명이 가장 재미있습니다)<br>• 소요시간: 1판당 15분 내외</p>
+
+        <div class="rule-section-title">📜 진행 단계</div>
+        <ol class="rule-list">
+          <li><strong>제시어 작성:</strong> 기발하고 엉뚱한 문장을 자유롭게 입력합니다.</li>
+          <li><strong>그림 그리기:</strong> 나에게 전달된 이전 사람의 제시어를 보고 제한 시간 내 그림을 그립니다.</li>
+          <li><strong>정답 맞추기:</strong> 이전 사람이 그린 그림만 보고 무슨 문장일지 추측하여 입력합니다.</li>
+          <li><strong>결과 공개:</strong> 완성된 릴레이 결과를 다 함께 보며 빵 터지는 시간!</li>
+        </ol>
+
+        <div class="rule-section-title">💡 워크숍 진행 꿀팁</div>
+        <p style="font-size:0.95rem;">'노멀 모드' 외에 **'비밀 모드'**나 **'애니메이션 모드'**를 선택하면 더 색다른 재미를 즐길 수 있습니다!</p>
+        <div style="margin-top:20px;">
+          <a href="https://garticphone.com/ko" target="_blank" rel="noopener" class="btn-submit" style="display:inline-block; text-decoration:none; text-align:center;">🌐 Gartic Phone 방 만들러 가기</a>
+        </div>
+      `,
+      bang: `
+        <h2 class="modal-title">🤠 뱅! (Bang!)</h2>
+        <div style="color:var(--text-sub); font-size:0.9rem; margin-bottom:16px;">서부의 마피아 카드게임</div>
+
+        <div class="rule-section-title">🎯 게임 역할 (Secret Roles)</div>
+        <ul class="rule-list">
+          <li><strong>보안관 (Sheriff):</strong> 신분 공개! 무법자와 배신자를 제거하고 서부의 평화를 지킵니다.</li>
+          <li><strong>부관 (Deputy):</strong> 정체 숨김. 보안관을 지키고 무법자를 처단합니다.</li>
+          <li><strong>무법자 (Outlaw):</strong> 정체 숨김. 무슨 수를 써서든 보안관을 제거해야 승리합니다.</li>
+          <li><strong>배신자 (Renegade):</strong> 정체 숨김. 최후에 보안관과 1:1로 남아 마지막 승자가 되어야 합니다.</li>
+        </ul>
+
+        <div class="rule-section-title">🃏 핵심 게임 규칙</div>
+        <ol class="rule-list">
+          <li>자기 턴이 되면 카드 2장을 가져옵니다.</li>
+          <li>원하는 만큼 카드를 사용합니다 (기본 턴당 '뱅!' 카드는 1장만 사용 가능).</li>
+          <li>'뱅!' 공격을 받으면 '빗나감!' 카드로 방어할 수 있습니다.</li>
+          <li>사거리(총기 장비)에 따라 공격할 수 있는 상대 플레이어 거리가 달라집니다.</li>
+        </ol>
+
+        <div class="rule-section-title">💡 꿀팁</div>
+        <p style="font-size:0.95rem;">보안관을 섣불리 공격하면 무법자로 오해받아 집중 포화를 맞을 수 있으니 눈치 작전이 필수입니다!</p>
+      `,
+      dalmuti: `
+        <h2 class="modal-title">👑 달무티 (The Great Dalmuti)</h2>
+        <div style="color:var(--text-sub); font-size:0.9rem; margin-bottom:16px;">신분 역전 계급 카드게임</div>
+
+        <div class="rule-section-title">🎯 핵심 룰 (Rank System)</div>
+        <p style="font-size:0.95rem;">카드의 숫자가 작을수록 더 높은 계급입니다 (1 = 대달무티, 12 = 농노). 카드의 숫자는 해당 카드의 총 매수와 같습니다 (12 카드는 총 12장 존재).</p>
+
+        <div class="rule-section-title">🃏 턴 진행 규칙</div>
+        <ol class="rule-list">
+          <li>선(선두) 플레이어가 원하는 카드 장수(예: 8 3장)를 냅니다.</li>
+          <li>다음 사람들은 <strong>동일한 장수</strong>이면서 <strong>더 낮은 숫자(더 높은 계급)</strong>의 카드(예: 5 3장)를 내야 합니다.</li>
+          <li>낼 카드가 없거나 아끼고 싶다면 패스합니다.</li>
+          <li>가장 먼저 손의 카드를 털어내는 사람이 다음 라운드의 **대달무티(1등)**가 됩니다.</li>
+        </ol>
+
+        <div class="rule-section-title">👑 계급 세금 룰</div>
+        <p style="font-size:0.95rem;">다음 라운드 시작 전, 대농노(꼴찌)는 가장 좋은 카드 2장을 대달무티에게 바치고, 대달무티는 아무 카드 2장을 줍니다!</p>
+      `
+    };
+
+    function openRuleModal(gameKey) {
+      const content = RULES_DATA[gameKey];
+      if (content) {
+        document.getElementById("modal-rule-content").innerHTML = content;
+        openModal("rule-modal");
+      }
+    }
+
+    function openAddGameModal() {
+      openModal("add-game-modal");
+    }
+
+    function handleAddCustomGame(e) {
+      e.preventDefault();
+      const name = document.getElementById("g-input-name").value;
+      const sub = document.getElementById("g-input-sub").value;
+      const meta = document.getElementById("g-input-meta").value;
+      const rules = document.getElementById("g-input-rules").value;
+
+      const container = document.getElementById("games-grid-container");
+      const newCard = document.createElement("div");
+      newCard.className = "game-card";
+      newCard.style.setProperty("--card-accent", "#8b5cf6");
+      newCard.innerHTML = `
+        <div>
+          <div class="game-top">
+            <div class="game-icon-box">🎮</div>
+            <div class="game-title-area">
+              <h3>${escapeHtml(name)}</h3>
+              <div class="game-subtitle">${escapeHtml(sub)}</div>
+            </div>
+          </div>
+          <div class="game-badges">
+            <span class="g-badge">ℹ️ ${escapeHtml(meta)}</span>
+          </div>
+          <p class="game-desc">${escapeHtml(rules)}</p>
+        </div>
+        <div class="game-actions">
+          <button class="btn-game-rule" onclick="alert('${escapeHtml(name)}:\\n\\n${escapeHtml(rules)}')">📜 상세 보기</button>
+        </div>
+      `;
+
+      // Insert before the last Add button card
+      container.insertBefore(newCard, container.lastElementChild);
+      closeModal("add-game-modal");
+      showToast(`'${name}' 보드게임이 추가되었습니다!`, "🎉");
+      e.target.reset();
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>'"]/g,
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
 
     document.querySelectorAll('[contenteditable]').forEach(element => {
       element.addEventListener('paste', event => {
