@@ -1249,12 +1249,12 @@
               </div>
               <div class="hero-card-icon">🎨</div>
               <h2 class="hero-card-title">보드게임 시간!</h2>
-              <p class="hero-card-desc">갈틱 폰, 뱅!, 달무티 등 다양한 워크숍 보드게임의 규칙을 확인하고 온라인 게임 방으로 바로 접속하세요!</p>
+              <p class="hero-card-desc">갈틱 폰, 뱅!, 라스베가스 등 다양한 워크숍 보드게임의 규칙을 확인하고 온라인 게임 방으로 바로 접속하세요!</p>
 
               <div class="hero-card-features">
                 <span class="hero-feat-tag">🎨 갈틱폰 바로가기</span>
                 <span class="hero-feat-tag">🤠 뱅! 룰 가이드</span>
-                <span class="hero-feat-tag">👑 달무티 룰</span>
+                <span class="hero-feat-tag">🎰 라스베가스 룰</span>
               </div>
             </div>
 
@@ -1482,30 +1482,30 @@
           </div>
         </div>
 
-        <!-- Dalmuti Card -->
+        <!-- Las Vegas Card -->
         <div class="game-card" style="--card-accent: #10b981;">
           <div>
             <div class="game-top">
-              <div class="game-icon-box">👑</div>
+              <div class="game-icon-box">🎰</div>
               <div class="game-title-area">
-                <h3>달무티 (Dalmuti)</h3>
-                <div class="game-subtitle">인생은 불공평합니다 - 계급 역전 게임</div>
+                <h3>라스베가스 (Las Vegas)</h3>
+                <div class="game-subtitle">주사위 배팅 & 카지노 상금 심리전</div>
               </div>
             </div>
 
             <div class="game-badges">
-              <span class="g-badge">👥 4~8명</span>
-              <span class="g-badge">⏱️ 20~40분</span>
-              <span class="g-badge">🃏 카드 게임</span>
+              <span class="g-badge">👥 2~5명 (3~5명 강추)</span>
+              <span class="g-badge">⏱️ 20~30분</span>
+              <span class="g-badge">🎲 주사위 게임</span>
             </div>
 
             <p class="game-desc">
-              달무티(왕)부터 농노까지! 카드 계급과 세금, 혁명을 활용해 빠르게 손의 카드를 털어내는 짜릿한 계급 게임.
+              주사위를 굴려 1~6번 카지노에 베팅! 개수가 같으면 동점 상쇄(폭파)! 최고의 달러 상금을 차지하는 짜릿한 주사위 심리전.
             </p>
           </div>
 
           <div class="game-actions">
-            <button class="btn-game-rule" onclick="openRuleModal('dalmuti')">📜 규칙 보기</button>
+            <button class="btn-game-rule" onclick="openRuleModal('lasvegas')">📜 규칙 보기</button>
           </div>
         </div>
 
@@ -2085,23 +2085,29 @@
         <div class="rule-section-title">💡 꿀팁</div>
         <p style="font-size:0.95rem;">보안관을 섣불리 공격하면 무법자로 오해받아 집중 포화를 맞을 수 있으니 눈치 작전이 필수입니다!</p>
       `,
-      dalmuti: `
-        <h2 class="modal-title">👑 달무티 (The Great Dalmuti)</h2>
-        <div style="color:var(--text-sub); font-size:0.9rem; margin-bottom:16px;">신분 역전 계급 카드게임</div>
+      lasvegas: `
+        <h2 class="modal-title">🎰 라스베가스 (Las Vegas)</h2>
+        <div style="color:var(--text-sub); font-size:0.9rem; margin-bottom:16px;">주사위 배팅 & 카지노 상금 베팅 심리전</div>
 
-        <div class="rule-section-title">🎯 핵심 룰 (Rank System)</div>
-        <p style="font-size:0.95rem;">카드의 숫자가 작을수록 더 높은 계급입니다 (1 = 대달무티, 12 = 농노). 카드의 숫자는 해당 카드의 총 매수와 같습니다 (12 카드는 총 12장 존재).</p>
+        <div class="rule-section-title">🎯 게임 개요</div>
+        <p style="font-size:0.95rem;">주사위를 굴려 1~6번 카지노 판에 배치하고, 카지노별 가장 많은 주사위를 놓은 플레이어가 상금 달러 지폐를 차지하는 눈치싸움 심리전 게임입니다!</p>
 
-        <div class="rule-section-title">🃏 턴 진행 규칙</div>
+        <div class="rule-section-title">👥 추천 인원 & 시간</div>
+        <p style="font-size:0.95rem;">• 추천 인원: 2명 ~ 5명 (3~5명이 가장 재미있습니다)<br>• 소요시간: 총 4라운드 (약 20~30분)</p>
+
+        <div class="rule-section-title">🎲 라운드 진행 방법</div>
         <ol class="rule-list">
-          <li>선(선두) 플레이어가 원하는 카드 장수(예: 8 3장)를 냅니다.</li>
-          <li>다음 사람들은 <strong>동일한 장수</strong>이면서 <strong>더 낮은 숫자(더 높은 계급)</strong>의 카드(예: 5 3장)를 내야 합니다.</li>
-          <li>낼 카드가 없거나 아끼고 싶다면 패스합니다.</li>
-          <li>가장 먼저 손의 카드를 털어내는 사람이 다음 라운드의 **대달무티(1등)**가 됩니다.</li>
+          <li><strong>주사위 굴리기:</strong> 자신의 턴이 되면 남은 주사위를 모두 굴립니다 (각자 8개 시작).</li>
+          <li><strong>카지노 배치:</strong> 나온 주사위 눈 하나를 선택하여, <strong>해당 숫자가 나온 주사위 전부</strong>를 해당 번호 카지노 판에 놓습니다.</li>
+          <li><strong>다음 사람 진행:</strong> 시계 방향으로 돌아가며 남은 주사위가 0개가 될 때까지 계속 배치합니다.</li>
         </ol>
 
-        <div class="rule-section-title">👑 계급 세금 룰</div>
-        <p style="font-size:0.95rem;">다음 라운드 시작 전, 대농노(꼴찌)는 가장 좋은 카드 2장을 대달무티에게 바치고, 대달무티는 아무 카드 2장을 줍니다!</p>
+        <div class="rule-section-title">💰 상금 정산 & 동점 폭파 룰</div>
+        <ul class="rule-list">
+          <li><strong>상금 획득:</strong> 카지노별로 주사위 개수가 가장 많은 사람이 그 카지노의 지폐 상금을 차지합니다.</li>
+          <li><strong>💥 동점 폭파 룰 (핵심!):</strong> 같은 카지노에 주사위 개수가 동일한 플레이어끼리는 <strong>서로 상쇄되어 모두 무효(폭파)</strong> 처리됩니다! 그다음으로 주사위가 많은 사람이 상금을 차지합니다.</li>
+          <li><strong>최종 승리:</strong> 4라운드 종료 후 총 획득 달러 금액이 가장 높은 플레이어가 최종 승리!</li>
+        </ul>
       `
     };
 
