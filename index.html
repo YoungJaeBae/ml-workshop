@@ -963,6 +963,9 @@
     .menu-table th, .menu-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,.1); text-align: left; color: #cbd5e1; }
     .menu-table th { color: #fff; }
     .budget-highlight { margin-top: 14px; padding: 14px; border-radius: 14px; background: rgba(16,185,129,.12); color: #6ee7b7; font-weight: 700; }
+    .attendee-group { margin-top: 14px; padding: 16px; border-radius: 16px; background: rgba(255,255,255,.05); }
+    .attendee-group strong { display: block; margin-bottom: 7px; color: #f0abfc; }
+    .attendee-group p { word-break: keep-all; }
 
     /* Add Game Form Modal */
     .form-group {
@@ -1077,12 +1080,27 @@
         padding: 24px 18px;
         border-radius: 22px;
       }
+      .login-box { padding: 32px 22px; border-radius: 22px; }
       .info-hero { padding: 26px 18px; }
       .info-hero h2 { font-size: 1.55rem; }
       .info-grid { grid-template-columns: 1fr; }
       .info-card.wide { grid-column: auto; }
+      .info-card { padding: 20px 16px; }
       .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .schedule-item { grid-template-columns: 82px 1fr; }
+      .schedule-item { grid-template-columns: 88px 1fr; gap: 10px; padding: 11px 10px; }
+      .menu-table { display: block; overflow-x: auto; white-space: nowrap; }
+      .attendee-group { padding: 14px 12px; }
+      .home-hero-container { gap: 24px; }
+      .hero-grid, .games-grid { grid-template-columns: minmax(0, 1fr); }
+      .hero-card { padding: 28px 22px; }
+      .toast { width: calc(100% - 32px); justify-content: center; text-align: center; }
+      .reflection-container { padding: 0; width: 100%; }
+      .reflection-frame {
+        height: calc(100dvh - 142px);
+        min-height: 620px;
+        border: 0;
+        border-radius: 0;
+      }
     }
 
     /* MIDYEAR REFLECTION SECTION */
@@ -1289,6 +1307,7 @@
               <div class="schedule-item"><span class="schedule-time">11:30–13:30</span><span>점심시간 및 산책</span></div>
               <div class="schedule-item"><span class="schedule-time">13:30</span><span>스트레칭</span></div>
               <div class="schedule-item"><span class="schedule-time">13:50–16:00</span><span>보드게임 라운지</span></div>
+              <div class="schedule-item"><span class="schedule-time">16:00–17:00</span><span><strong>상반기 회고</strong></span></div>
               <div class="schedule-item"><span class="schedule-time">17:10</span><span>서천 아크메로 이동</span></div>
             </div>
             <h4>근태 안내</h4>
@@ -1315,18 +1334,25 @@
               <li><strong>조식 일반식</strong>: 07:00–08:30</li>
               <li><strong>중식 T/O</strong>: 11:00–14:00</li>
               <li><strong>중식 일반식</strong>: 11:30–13:30</li>
+              <li><strong>신용카드</strong>: 제공 당일 식당사무실 방문 후 결제 (B110호)</li>
             </ul>
           </article>
 
           <article class="info-card">
             <h3>🍷 회식 인원 및 주류</h3>
             <p><strong>총 23명 · 6테이블</strong></p>
-            <ul>
-              <li>주류 15명: 4테이블 (콜키지)</li>
-              <li>비주류 8명: 2테이블</li>
-              <li>와인 6병 + 포트와인 1병</li>
-              <li>콜키지: 테이블당 2만 원</li>
-            </ul>
+            <div class="attendee-group">
+              <strong>Yes술 · 15명</strong>
+              <p>강동협, 고요한, 김병희, 김종화, 노성호, 송진백, 오상윤, 오현교, 이강희, 이기현, 이진영, 이한규, 임동후, 정영훈, 정진구</p>
+              <p>→ 4인 테이블 4개</p>
+              <p><strong>술은 와인 6병! 영재님이 포트와인 1병 기부! 현교님 6병 기부!</strong></p>
+            </div>
+            <div class="attendee-group">
+              <strong>No술 · 8명</strong>
+              <p>고산주, 문상권, 박재영, 배영재, 서영덕, 이성화, 강은지, 안민균</p>
+              <p>→ 테이블 2개</p>
+            </div>
+            <p style="margin-top: 12px;">콜키지: 테이블당 2만 원</p>
           </article>
 
           <article class="info-card wide">
