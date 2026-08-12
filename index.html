@@ -919,6 +919,45 @@
       transition: all 0.3s ease;
     }
 
+    /* Workshop information */
+    .info-container { display: flex; flex-direction: column; gap: 24px; }
+    .info-hero {
+      padding: 36px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(6, 182, 212, 0.16));
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      text-align: center;
+    }
+    .info-hero h2 { font-size: 2rem; margin: 8px 0 12px; }
+    .info-hero p { color: #cbd5e1; line-height: 1.7; }
+    .info-meta { margin-top: 14px; color: var(--text-sub); font-size: 0.82rem; }
+    .info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .info-card {
+      padding: 24px;
+      border-radius: 22px;
+      background: rgba(30, 27, 75, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .info-card.wide { grid-column: 1 / -1; }
+    .info-card h3 { font-size: 1.2rem; margin-bottom: 16px; }
+    .info-card h4 { color: #c4b5fd; margin: 16px 0 8px; }
+    .info-card p, .info-card li { color: #cbd5e1; line-height: 1.7; font-size: 0.92rem; }
+    .info-card ul { padding-left: 20px; }
+    .info-link { color: #67e8f9; text-decoration: none; }
+    .info-link:hover { text-decoration: underline; }
+    .schedule-list { display: grid; gap: 10px; }
+    .schedule-item { display: grid; grid-template-columns: 100px 1fr; gap: 14px; padding: 12px; border-radius: 14px; background: rgba(255,255,255,.05); }
+    .schedule-time { color: #a78bfa; font-weight: 700; }
+    .team-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .team-box { padding: 16px; border-radius: 16px; background: rgba(255,255,255,.05); }
+    .team-box strong { display: block; margin-bottom: 8px; color: #f0abfc; }
+    .team-box ul { list-style: none; padding: 0; }
+    .team-box li { font-size: .84rem; }
+    .menu-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    .menu-table th, .menu-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,.1); text-align: left; color: #cbd5e1; }
+    .menu-table th { color: #fff; }
+    .budget-highlight { margin-top: 14px; padding: 14px; border-radius: 14px; background: rgba(16,185,129,.12); color: #6ee7b7; font-weight: 700; }
+
     /* Add Game Form Modal */
     .form-group {
       margin-bottom: 16px;
@@ -966,8 +1005,9 @@
       .tab-btn {
         flex: 1;
         justify-content: center;
-        padding: 12px 14px;
-        font-size: 0.9rem;
+        padding: 11px 7px;
+        font-size: 0.78rem;
+        white-space: nowrap;
       }
       .header-actions { margin-left: auto; }
       
@@ -1031,6 +1071,12 @@
         padding: 24px 18px;
         border-radius: 22px;
       }
+      .info-hero { padding: 26px 18px; }
+      .info-hero h2 { font-size: 1.55rem; }
+      .info-grid { grid-template-columns: 1fr; }
+      .info-card.wide { grid-column: auto; }
+      .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .schedule-item { grid-template-columns: 82px 1fr; }
     }
   </style>
 </head>
@@ -1075,6 +1121,9 @@
       <button class="tab-btn" id="tab-btn-games" onclick="switchTab('games')">
         <span>🎲</span> 보드게임
       </button>
+      <button class="tab-btn" id="tab-btn-info" onclick="switchTab('info')">
+        <span>📌</span> 안내
+      </button>
     </nav>
 
     <div class="header-actions">
@@ -1102,6 +1151,15 @@
         </div>
 
         <div class="hero-grid">
+          <div class="hero-card" style="--glow-color: rgba(245, 158, 11, 0.4); grid-column: 1 / -1;" onclick="switchTab('info')">
+            <div>
+              <div class="hero-card-badge" style="background: rgba(245, 158, 11, 0.2); border-color: rgba(245, 158, 11, 0.4); color: #fbbf24;">📌 8월 13일 목요일</div>
+              <div class="hero-card-icon">🗓️</div>
+              <h2 class="hero-card-title">워크숍 종합 안내</h2>
+              <p class="hero-card-desc">장소, 조 편성, 근태, 케이터링과 회식 메뉴까지 워크숍에 필요한 정보를 한눈에 확인하세요.</p>
+            </div>
+            <button class="hero-card-btn" style="--btn-grad: linear-gradient(135deg, #f59e0b, #ec4899);">안내 확인하기 📍</button>
+          </div>
           <!-- Program 1: 수다타임 -->
           <div class="hero-card" style="--glow-color: rgba(236, 72, 153, 0.4);" onclick="switchTab('talk')">
             <div>
@@ -1145,6 +1203,86 @@
               보드게임 보러가기 🎲
             </button>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Workshop information -->
+    <section id="tab-info" class="tab-content">
+      <div class="info-container">
+        <div class="info-hero">
+          <div class="badge-tag">ML P/J WORKSHOP · AUG 2026</div>
+          <h2>따로 또 같이, 리프레시하는 하루!</h2>
+          <p>일상에서 잠깐 벗어나 함께 쉬고 이야기하며 즐거운 추억을 만들어요.</p>
+          <div class="info-meta">작성자 강은지 · 마지막 업데이트 2026. 8. 11. 14:47</div>
+        </div>
+
+        <div class="info-grid">
+          <article class="info-card">
+            <h3>🗓️ 일시 및 장소</h3>
+            <p><strong>2026년 8월 13일(목) 10:00–17:00</strong></p>
+            <h4>장소 1 · 서천연수원 107 강의실</h4>
+            <ul>
+              <li><a class="info-link" href="https://dseducenter.com/usc/mtg/selectMyMtgResveDetail.do" target="_blank" rel="noopener">에듀센터 예약시스템</a></li>
+              <li>주차 가능 · 5부제 없음</li>
+              <li>보안 처리 필요</li>
+              <li>H1 출근 셔틀: 주차타워 11번</li>
+            </ul>
+            <h4>장소 2 · 서천 아크메</h4>
+            <p>8월 13일 26명 예약 완료 (서영덕)<br>8월 10일까지 메뉴 전달 (배영재)</p>
+          </article>
+
+          <article class="info-card">
+            <h3>⏰ 시간표</h3>
+            <div class="schedule-list">
+              <div class="schedule-item"><span class="schedule-time">08:00–10:00</span><span>워크숍 근태 시작 및 개별 이동</span></div>
+              <div class="schedule-item"><span class="schedule-time">10:00–17:00</span><span>서천연수원 워크숍 프로그램</span></div>
+              <div class="schedule-item"><span class="schedule-time">이후</span><span>서천 아크메 회식</span></div>
+            </div>
+            <h4>근태 안내</h4>
+            <p>근태 유형: <strong>Workshop</strong><br>근태일자: 8월 13일(목)<br>사유: ML P/J 워크숍 (서천연수원 107 강의실, 08:00–17:00)</p>
+            <div class="budget-highlight">✓ 사무실 출근 체크 없이 서천연수원으로 바로 이동해도 근태 처리 가능합니다.</div>
+          </article>
+
+          <article class="info-card wide">
+            <h3>👥 조 편성 및 자리 배치</h3>
+            <div class="team-grid">
+              <div class="team-box"><strong>A조 · 6명</strong><ul><li>ENTP 송진백</li><li>ENTJ 안민균</li><li>INTJ 정진구</li><li>INTJ 고요한</li><li>INFJ 배영재</li><li>INTP 문상권</li></ul></div>
+              <div class="team-box"><strong>B조 · 6명</strong><ul><li>ENTP 이기현</li><li>INFJ 강은지</li><li>ENFJ 서영덕</li><li>INTP 오창용</li><li>INFP 임동후</li><li>INTP 김종화</li></ul></div>
+              <div class="team-box"><strong>C조 · 6명</strong><ul><li>ESFJ 이한규</li><li>ISTP 이진영</li><li>ISTP 고산주</li><li>ISFP 노성호</li><li>ISTJ 김병희</li><li>ISFP 오상윤</li></ul></div>
+              <div class="team-box"><strong>D조 · 6명</strong><ul><li>ESTJ 오현교</li><li>ISFJ 이성화</li><li>ISFJ 이강희</li><li>ISTJ 정영훈</li><li>ISFJ 강동협</li><li>ISTJ 박재영</li></ul></div>
+            </div>
+          </article>
+
+          <article class="info-card">
+            <h3>☕ 케이터링</h3>
+            <p><strong>The UniverSE 카페테리아</strong><br>담당: 윤소영<br>연락처: 031-8031-3600</p>
+          </article>
+
+          <article class="info-card">
+            <h3>🍷 회식 인원 및 주류</h3>
+            <p><strong>총 23명 · 6테이블</strong></p>
+            <ul>
+              <li>주류 15명: 4테이블 (콜키지)</li>
+              <li>비주류 8명: 2테이블</li>
+              <li>와인 6병 + 포트와인 1병</li>
+              <li>콜키지: 테이블당 2만 원</li>
+            </ul>
+          </article>
+
+          <article class="info-card wide">
+            <h3>🍽️ 회식 메뉴 및 예산</h3>
+            <p>테이블당 4인 기준 구성입니다.</p>
+            <table class="menu-table">
+              <thead><tr><th>메뉴</th><th>금액</th></tr></thead>
+              <tbody>
+                <tr><td>머쉬룸 샐러드</td><td>1.8만 원</td></tr><tr><td>시금치 크림 감자 뇨끼</td><td>2.1만 원</td></tr>
+                <tr><td>앤초비 오일 파스타</td><td>1.9만 원</td></tr><tr><td>김치 갈비 리조또</td><td>2.0만 원</td></tr>
+                <tr><td>스테이크 450g</td><td>9.9만 원</td></tr><tr><th>테이블당 합계</th><th>17.7만 원</th></tr>
+              </tbody>
+            </table>
+            <div class="budget-highlight">6테이블 106.2만 원 + 콜키지 8만 원 = 총 114.2만 원 · 예산 125만 원 (25명 × 5만 원) · 예상 잔여 예산 약 7만 원</div>
+          </article>
         </div>
       </div>
     </section>
@@ -1730,6 +1868,11 @@
         const gamesTab = document.getElementById('tab-games');
         if (gamesBtn) gamesBtn.classList.add('active');
         if (gamesTab) gamesTab.classList.add('active');
+      } else if (tabId === 'info') {
+        const infoBtn = document.getElementById('tab-btn-info');
+        const infoTab = document.getElementById('tab-info');
+        if (infoBtn) infoBtn.classList.add('active');
+        if (infoTab) infoTab.classList.add('active');
       }
     }
 
