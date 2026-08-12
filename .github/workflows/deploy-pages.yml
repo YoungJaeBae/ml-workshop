@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
+      - main
       - work
   workflow_dispatch:
 
@@ -28,8 +29,15 @@ jobs:
       - name: Prepare static site
         run: |
           mkdir _site
-          cp index.html _site/index.html
+          cp index.html reflection.html _site/
+          cp index.html _site/404.html
           touch _site/.nojekyll
+
+      - name: Verify static site artifact
+        run: |
+          test -s _site/index.html
+          test -s _site/reflection.html
+          test -s _site/404.html
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
