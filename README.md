@@ -33,8 +33,8 @@ python3 -m http.server 8000
 
 ## GitHub Pages 배포
 
-`work` 브랜치에 변경 사항을 푸시하면 GitHub Actions가 정적 사이트를 GitHub
-Pages에 자동으로 배포합니다. 저장소의 **Settings → Pages → Build and
+`main` 또는 `work` 브랜치에 변경 사항을 푸시하면 GitHub Actions가 `index.html`과
+`reflection.html`을 GitHub Pages에 자동으로 배포합니다. 저장소의 **Settings → Pages → Build and
 deployment → Source**가 **GitHub Actions**로 설정되어 있어야 합니다.
 
 필요한 경우 Actions 화면의 **Deploy to GitHub Pages** 워크플로에서
