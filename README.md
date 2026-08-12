@@ -1,6 +1,7 @@
 # ML Workshop Portal
 
 별도 빌드 없이 브라우저에서 바로 확인할 수 있는 단일 페이지 워크숍 포털입니다.
+포털 안에서 워크숍 안내, 상반기 회고, 수다타임, 보드게임 프로그램을 이용할 수 있습니다.
 
 ## 로컬에서 확인하기
 
@@ -18,15 +19,22 @@ python3 -m http.server 8000
 
 ## 확인할 화면
 
-- **홈**: 수다타임, 보드게임, 워크숍 안내 진입 카드
+- **홈**: 워크숍 안내, 상반기 회고, 수다타임, 보드게임 진입 카드
 - **안내**: 일정, 장소, 근태, 조 편성, 케이터링, 회식 메뉴 및 예산
+- **상반기 회고**: 10개 질문 작성, 날씨와 만족도 선택, PDF·PNG 저장
 - **수다타임**: 중복 없이 뽑히는 24개의 랜덤 대화 카드
 - **보드게임**: 게임별 소개와 규칙 모달
 
+## 회고 데이터 저장
+
+회고 작성 내용, 날씨, 만족도는 입력할 때마다 브라우저의 `localStorage`에 자동 저장되며,
+같은 브라우저와 주소로 다시 열면 복원됩니다. 데이터는 별도 서버로 전송되지 않습니다.
+회고지의 **다 지우기** 버튼을 누르면 화면의 내용과 저장된 데이터가 함께 삭제됩니다.
+
 ## GitHub Pages 배포
 
-`work` 브랜치에 변경 사항을 푸시하면 GitHub Actions가 정적 사이트를 GitHub
-Pages에 자동으로 배포합니다. 저장소의 **Settings → Pages → Build and
+`main` 또는 `work` 브랜치에 변경 사항을 푸시하면 GitHub Actions가 `index.html`과
+`reflection.html`을 GitHub Pages에 자동으로 배포합니다. 저장소의 **Settings → Pages → Build and
 deployment → Source**가 **GitHub Actions**로 설정되어 있어야 합니다.
 
 필요한 경우 Actions 화면의 **Deploy to GitHub Pages** 워크플로에서

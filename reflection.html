@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#dde6f4">
+  <title>2026 상반기 회고</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #2b2b2b;
+      --bg: #dde6f4;
+      --band: #8ba4cf;
+      --line: #c3cee0;
+      --soft: #f7fafe;
+      --sub: #71809a;
+      --hand: 'Gyulim', '규림_연말정산', '규림연말정산', 'Gaegu', cursive;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 28px 16px 60px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--hand);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .sheet {
+      position: relative;
+      width: 210mm;
+      min-height: 297mm;
+      padding: 13mm 14mm 10mm;
+      background: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 255px 14px 225px 14px / 14px 225px 14px 255px;
+      box-shadow: 6px 8px 0 rgba(43, 43, 43, .13);
+    }
+
+    .top { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 16px; }
+    .doodle { flex: 0 0 auto; margin-bottom: 6px; }
+    .bubble {
+      flex: 1;
+      position: relative;
+      border: 3px solid var(--ink);
+      border-radius: 240px 20px 220px 20px / 20px 200px 20px 240px;
+      padding: 11px 20px 13px;
+      background: var(--band);
+    }
+    .bubble h1 {
+      margin: 0;
+      color: #fff;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      line-height: 1.15;
+      text-align: center;
+      text-shadow: 1.5px 1.5px 0 rgba(43, 43, 43, .45);
+    }
+    .tail {
+      position: absolute;
+      left: -13px;
+      bottom: 15px;
+      width: 0;
+      height: 0;
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+      border-right: 16px solid var(--ink);
+    }
+    .tail::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: -7px;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-right: 13px solid var(--band);
+    }
+
+    .info { display: flex; gap: 12px; align-items: stretch; margin-bottom: 16px; }
+    .chip { flex: 1; border: 2.5px dashed var(--line); border-radius: 18px; padding: 7px 12px 9px; background: var(--soft); }
+    .chip.name { flex: 0 0 130px; }
+    .chip .k { display: block; margin-bottom: 2px; color: var(--sub); font-size: 15px; }
+    .chip .v { min-height: 26px; outline: none; font-size: 21px; }
+    .weather { flex: 0 0 auto; }
+    .picks { display: flex; gap: 2px; font-size: 21px; line-height: 26px; }
+    .pick { padding: 0 3px; border: 0; border-radius: 50%; background: none; cursor: pointer; font: inherit; transition: transform .12s; }
+    .pick:hover { transform: scale(1.18); }
+    .pick.on { outline: 2.5px solid var(--band); outline-offset: 1px; }
+
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px 22px; }
+    .q { padding-top: 2px; }
+    .q.wide { grid-column: 1 / -1; }
+    .head { display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px; }
+    .num {
+      flex: 0 0 auto;
+      width: 23px;
+      height: 23px;
+      border: 2.5px solid var(--ink);
+      border-radius: 50%;
+      background: var(--band);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(-4deg);
+    }
+    .q .t { font-size: 20px; line-height: 1.25; }
+    .ans {
+      min-height: 93px;
+      margin-left: 29px;
+      outline: none;
+      font-size: 19px;
+      line-height: 31px;
+      background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 29px, var(--line) 29px, var(--line) 30.5px);
+    }
+
+    [contenteditable]:focus { border-radius: 4px; box-shadow: 0 0 0 2px rgba(139, 164, 207, .35); }
+    .foot { margin-top: 14px; padding-top: 10px; border-top: 2.5px dashed var(--line); display: flex; align-items: center; gap: 20px; flex-wrap: wrap; color: #5c6a83; font-size: 17px; }
+    .stars { display: inline-flex; color: #c8d1e0; font-size: 23px; letter-spacing: 1px; }
+    .star { padding: 0; border: 0; background: none; color: inherit; cursor: pointer; font: inherit; }
+    .star.on { color: #e8b64c; }
+    .blank { display: inline-block; min-width: 56px; border-bottom: 2px solid var(--line); outline: none; color: var(--ink); font-size: 19px; text-align: center; }
+
+    .bar { display: flex; gap: 10px; margin-bottom: 20px; }
+    .bar button {
+      padding: 9px 22px 11px;
+      border: 3px solid var(--ink);
+      border-radius: 200px 18px 190px 18px / 18px 180px 18px 200px;
+      background: #fff;
+      box-shadow: 3px 4px 0 rgba(43, 43, 43, .2);
+      color: var(--ink);
+      cursor: pointer;
+      font: 20px var(--hand);
+    }
+    .bar button:hover { background: #fffbe8; }
+    .bar button:active { transform: translate(2px, 3px); box-shadow: 1px 1px 0 rgba(43, 43, 43, .2); }
+
+    @media (max-width: 850px) {
+      body { display: block; padding: 12px 10px max(30px, env(safe-area-inset-bottom)); overflow-x: hidden; }
+      .bar {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        width: 100%;
+        gap: 7px;
+        padding: 4px 0 10px;
+        background: rgba(221, 230, 244, .94);
+        backdrop-filter: blur(8px);
+      }
+      .bar button { flex: 1; min-height: 44px; padding: 8px 6px 10px; font-size: 16px; }
+      .sheet { width: 100%; min-height: 0; padding: 20px 14px 24px; border-width: 2px; box-shadow: 4px 5px 0 rgba(43, 43, 43, .13); }
+      .top { align-items: center; gap: 5px; margin-bottom: 13px; }
+      .doodle { width: 42px; height: 50px; }
+      .bubble { padding: 10px 8px 11px; }
+      .bubble h1 { font-size: clamp(21px, 6.5vw, 27px); letter-spacing: -.3px; }
+      .info { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .chip, .chip.name { min-width: 0; padding: 7px 9px 9px; }
+      .chip.name { flex-basis: auto; }
+      .chip.weather { grid-column: 1 / -1; }
+      .chip .v { font-size: 19px; }
+      .picks { justify-content: space-around; font-size: 24px; }
+      .pick, .star { min-width: 40px; min-height: 40px; }
+      .grid { grid-template-columns: 1fr; gap: 11px; }
+      .q.wide { grid-column: auto; }
+      .q .t { font-size: 19px; }
+      .ans { min-height: 92px; margin-left: 0; padding-left: 29px; font-size: 18px; }
+      .foot { gap: 8px 12px; font-size: 16px; }
+      .stars { width: 100%; justify-content: space-between; font-size: 27px; }
+    }
+
+    @page { size: A4; margin: 0; }
+    @media print {
+      body { padding: 0; background: #fff; }
+      .bar { display: none !important; }
+      .sheet { width: 210mm; height: 297mm; padding: 12mm 14mm; border: 0; border-radius: 0; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="bar" aria-label="문서 도구">
+    <button type="button" id="print-button">인쇄 / PDF 저장</button>
+    <button type="button" id="image-button">이미지로 저장</button>
+    <button type="button" id="clear-button">다 지우기</button>
+  </nav>
+
+  <main class="sheet" id="sheet">
+    <header class="top">
+      <svg class="doodle" width="58" height="66" viewBox="0 0 58 66" fill="none" aria-hidden="true">
+        <path d="M29 5C17 5 9 14 9 25c0 9 6 17 15 19l-1 15c-.2 3 3 4 4 1l5-15c10-1 17-9 17-19C49 14 41 5 29 5Z" stroke="#2b2b2b" stroke-width="3" stroke-linejoin="round" fill="#fff"/>
+        <path d="M21 21c1.6 1.8 3.4 1.8 5 0M32 21c1.6 1.8 3.4 1.8 5 0" stroke="#2b2b2b" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M23 31c3 3.5 8 3.5 11 0" stroke="#2b2b2b" stroke-width="2.8" stroke-linecap="round"/>
+        <path d="M29 5V1M18 8 15 4M40 8l3-4" stroke="#2b2b2b" stroke-width="2.6" stroke-linecap="round"/>
+      </svg>
+      <div class="bubble"><span class="tail"></span><h1>2026년 상반기, 나는 어땠나요</h1></div>
+    </header>
+
+    <section class="info" aria-label="기본 정보">
+      <div class="chip name"><span class="k">이름</span><div class="v" contenteditable="true" role="textbox" aria-label="이름"></div></div>
+      <div class="chip"><span class="k">상반기를 한 단어로</span><div class="v" contenteditable="true" role="textbox" aria-label="상반기를 한 단어로"></div></div>
+      <div class="chip weather"><span class="k">상반기 날씨</span><div class="picks" id="weather" aria-label="상반기 날씨 선택"></div></div>
+    </section>
+
+    <section class="grid" id="questions" aria-label="상반기 회고 질문"></section>
+
+    <footer class="foot">
+      <span>상반기 만족도</span>
+      <span class="stars" id="stars" aria-label="상반기 만족도"></span>
+      <span>먼저 이야기하고 싶은 번호 <b class="blank" contenteditable="true" role="textbox" aria-label="먼저 이야기하고 싶은 번호"></b></span>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+    const questions = [
+      '요즘 제일 많이 들은 노래 🎧', '제일 좋았던 공간 📍', 'Best 소비 💸', 'Worst 소비 🫠',
+      '나의 도파민 🍿', '상반기 도전 🔥', '상반기 실패 🙃', '못 하고 넘어간 것 ⏳',
+      '상반기의 나에게 한마디 💬', '하반기의 나에게 한마디 ✉️'
+    ];
+    const weatherOptions = ['☀️', '⛅', '🌧️', '⛈️', '🌈'];
+    const storageKey = 'midyear-reflection-2026';
+    const weather = document.getElementById('weather');
+    const stars = document.getElementById('stars');
+
+    function saveReflection() {
+      const selectedWeather = weather.querySelector('.pick.on');
+      const selectedStars = stars.querySelectorAll('.star.on');
+      const data = {
+        name: document.querySelector('.chip.name .v').innerText,
+        keyword: document.querySelector('.chip:not(.name):not(.weather) .v').innerText,
+        answers: [...document.querySelectorAll('.ans')].map(answer => answer.innerText),
+        discussNumber: document.querySelector('.blank').innerText,
+        weather: selectedWeather ? Number(selectedWeather.dataset.index) : null,
+        rating: selectedStars.length
+      };
+
+      try {
+        window.localStorage.setItem(storageKey, JSON.stringify(data));
+      } catch (error) {
+        console.warn('회고 내용을 브라우저에 저장하지 못했습니다.', error);
+      }
+    }
+
+    function loadReflection() {
+      let data;
+      try {
+        data = JSON.parse(window.localStorage.getItem(storageKey));
+      } catch (error) {
+        console.warn('저장된 회고 내용을 불러오지 못했습니다.', error);
+        return;
+      }
+      if (!data || typeof data !== 'object') return;
+
+      document.querySelector('.chip.name .v').textContent = data.name || '';
+      document.querySelector('.chip:not(.name):not(.weather) .v').textContent = data.keyword || '';
+      document.querySelectorAll('.ans').forEach((answer, index) => {
+        answer.textContent = Array.isArray(data.answers) ? data.answers[index] || '' : '';
+      });
+      document.querySelector('.blank').textContent = data.discussNumber || '';
+      weather.querySelectorAll('.pick').forEach((button, index) => {
+        const selected = data.weather === index;
+        button.classList.toggle('on', selected);
+        button.setAttribute('aria-pressed', String(selected));
+      });
+      stars.querySelectorAll('.star').forEach((star, index) => {
+        star.classList.toggle('on', index < Number(data.rating || 0));
+      });
+    }
+
+    document.getElementById('questions').innerHTML = questions.map((question, index) => `
+      <article class="q ${index > 7 ? 'wide' : ''}">
+        <div class="head"><div class="num">${index + 1}</div><div class="t">${question}</div></div>
+        <div class="ans" contenteditable="true" role="textbox" aria-label="${index + 1}번 답변"></div>
+      </article>`).join('');
+
+    weatherOptions.forEach((symbol, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'pick';
+      button.textContent = symbol;
+      button.dataset.index = index;
+      button.setAttribute('aria-label', `${index + 1}번째 날씨 ${symbol}`);
+      button.setAttribute('aria-pressed', 'false');
+      button.addEventListener('click', () => {
+        const shouldSelect = !button.classList.contains('on');
+        weather.querySelectorAll('.pick').forEach(item => {
+          item.classList.remove('on');
+          item.setAttribute('aria-pressed', 'false');
+        });
+        if (shouldSelect) {
+          button.classList.add('on');
+          button.setAttribute('aria-pressed', 'true');
+        }
+        saveReflection();
+      });
+      weather.appendChild(button);
+    });
+
+    Array.from({ length: 5 }, (_, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'star';
+      button.textContent = '★';
+      button.setAttribute('aria-label', `${index + 1}점`);
+      button.addEventListener('click', () => {
+        const starButtons = [...stars.children];
+        const clear = button.classList.contains('on') && !starButtons[index + 1]?.classList.contains('on');
+        starButtons.forEach((star, starIndex) => star.classList.toggle('on', !clear && starIndex <= index));
+        saveReflection();
+      });
+      stars.appendChild(button);
+    });
+
+    document.querySelectorAll('[contenteditable]').forEach(element => {
+      element.addEventListener('paste', event => {
+        event.preventDefault();
+        const text = (event.clipboardData || window.clipboardData).getData('text/plain');
+        document.execCommand('insertText', false, text);
+      });
+      element.addEventListener('input', () => {
+        if (element.innerHTML === '<br>' || element.innerHTML === '<div><br></div>') element.innerHTML = '';
+        saveReflection();
+      });
+    });
+
+    loadReflection();
+
+    document.getElementById('print-button').addEventListener('click', () => window.print());
+    document.getElementById('clear-button').addEventListener('click', () => {
+      if (!window.confirm('적은 내용을 모두 지울까요?')) return;
+      document.querySelectorAll('[contenteditable]').forEach(element => { element.innerHTML = ''; });
+      document.querySelectorAll('.pick, .star').forEach(element => {
+        element.classList.remove('on');
+        if (element.classList.contains('pick')) element.setAttribute('aria-pressed', 'false');
+      });
+      try {
+        window.localStorage.removeItem(storageKey);
+      } catch (error) {
+        console.warn('저장된 회고 내용을 삭제하지 못했습니다.', error);
+      }
+    });
+
+    document.getElementById('image-button').addEventListener('click', async () => {
+      if (typeof html2canvas === 'undefined') {
+        window.alert('이미지 저장 기능을 불러오지 못했어요 (인터넷 연결 확인).\n대신 [인쇄 / PDF 저장]을 눌러 PDF로 저장해 주세요.');
+        return;
+      }
+      const name = (document.querySelector('.chip.name .v').innerText || '').trim().replace(/[\\/:*?"<>|\s]/g, '') || '무명';
+      const canvas = await html2canvas(document.getElementById('sheet'), { scale: 2, backgroundColor: '#ffffff' });
+      const link = document.createElement('a');
+      link.download = `2026상반기회고_${name}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+  </script>
+</body>
+</html>
