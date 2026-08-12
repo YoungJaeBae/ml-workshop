@@ -1170,10 +1170,10 @@
     </nav>
 
     <div class="header-actions">
-      <div class="pool-badge" id="pool-count-badge">
+      <div class="pool-badge" id="pool-count-badge" style="display: none;">
         <span>🎴</span> 남은 카드: <strong id="remaining-cards-num" style="color:#a78bfa;">24</strong>/24
       </div>
-      <button class="action-icon-btn" title="카드 풀 초기화" onclick="resetCardPoolWithToast()">
+      <button class="action-icon-btn" id="reset-pool-btn" title="카드 풀 초기화" onclick="resetCardPoolWithToast()" style="display: none;">
         🔄
       </button>
       <button class="action-icon-btn" title="다시 잠그기" onclick="lockApp()">
@@ -1939,6 +1939,13 @@
     function switchTab(tabId) {
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      // Show card pool badge & reset button ONLY on 수다타임 (talk) tab
+      const poolBadge = document.getElementById('pool-count-badge');
+      const resetBtn = document.getElementById('reset-pool-btn');
+      const isTalkTab = (tabId === 'talk');
+      if (poolBadge) poolBadge.style.display = isTalkTab ? 'flex' : 'none';
+      if (resetBtn) resetBtn.style.display = isTalkTab ? 'flex' : 'none';
 
       if (tabId === 'home') {
         const homeBtn = document.getElementById('tab-btn-home');
